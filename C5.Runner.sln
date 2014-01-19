@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C5.IntervalHotSpots", "C5.IntervalHotSpots\C5.IntervalHotSpots.csproj", "{FF3DEB1E-D19F-49B4-A73D-CA8544F9B113}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C5.Performance.Wpf", "C5.Performance.Wpf\C5.Performance.Wpf.csproj", "{2FDF20F0-55AF-4A44-90ED-E658ADD5D500}"
@@ -122,8 +120,5 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(Performance) = preSolution
-		HasPerformanceSessions = true
 	EndGlobalSection
 EndGlobal
