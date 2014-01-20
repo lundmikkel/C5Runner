@@ -446,7 +446,7 @@ namespace C5.Intervals.Tests
 
             sw.Stop();
 
-            writeTest("Constructor", dataset, intervals.Length, sw.ElapsedMilliseconds / repetitions);
+            writeTest("Construct", dataset, intervals.Length, sw.ElapsedMilliseconds / repetitions);
             Console.WriteLine("Average construction time for {0} intervals: {1} ms",
                 intervals.Length,
                 sw.ElapsedMilliseconds / repetitions

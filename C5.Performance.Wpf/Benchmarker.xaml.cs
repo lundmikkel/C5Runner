@@ -3,6 +3,7 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
 using C5.Intervals;
+using C5.Intervals.Performance;
 using C5.Intervals.Tests;
 using C5.Performance.Wpf.Benchmarks;
 using C5.Performance.Wpf.Report_Benchmarks;
@@ -16,7 +17,7 @@ namespace C5.Performance.Wpf
         #region Benchmark setup
         // Parameters for running the benchmarks
         private const int MinCollectionSize = 100;
-        private const int MaxCollectionSize = 102401;//TrainUtilities.TrainSetACount;
+        private const int MaxCollectionSize = 102401; //TrainUtilities.TrainSetACount;
         private const int CollectionMultiplier = 2;
         private const int StandardRepeats = 10;
         private const double MaxExecutionTimeInSeconds = 0.25;
@@ -29,12 +30,24 @@ namespace C5.Performance.Wpf
         private int _repeats = 1;
         private bool _runSequential;
         private bool _runWarmups = false;
+
         private static readonly Func<int, IInterval<int>[]> A = BenchmarkTestCases.DataSetA;
         private static readonly Func<int, IInterval<int>[]> B = BenchmarkTestCases.DataSetB;
         private static readonly Func<int, IInterval<int>[]> C = BenchmarkTestCases.DataSetC;
         private static readonly Func<int, IInterval<int>[]> D = BenchmarkTestCases.DataSetD;
+
+        private static readonly Func<int, IInterval<int>[]> NoOverlaps = IntervalsFactory.NoOverlaps;
+        private static readonly Func<int, IInterval<int>[]> Meets = IntervalsFactory.Meets;
+        private static readonly Func<int, IInterval<int>[]> Overlaps = IntervalsFactory.Overlaps;
+        private static readonly Func<int, IInterval<int>[]> Containments = IntervalsFactory.PineTreeForest;
+
+        private static readonly Func<IInterval<int>[], IIntervalCollection<IInterval<int>, int>> FIXED = IntervalBenchmarkable.IBS;
+
         private static readonly Func<IInterval<int>[], IIntervalCollection<IInterval<int>, int>> DIT = IntervalBenchmarkable.DIT;
         private static readonly Func<IInterval<int>[], IIntervalCollection<IInterval<int>, int>> IBS = IntervalBenchmarkable.IBS;
+        private static readonly Func<IInterval<int>[], IIntervalCollection<IInterval<int>, int>> IBSOLD = IntervalBenchmarkable.IBSOLD;
+        private static readonly Func<IInterval<int>[], IIntervalCollection<IInterval<int>, int>> DLFIT = IntervalBenchmarkable.DLFIT;
+        private static readonly Func<IInterval<int>[], IIntervalCollection<IInterval<int>, int>> SFIL = IntervalBenchmarkable.SFIL;
 
         // These are the benchmarks that will be run by the benchmarker.
         private static Benchmarkable[] Benchmarks
@@ -44,38 +57,72 @@ namespace C5.Performance.Wpf
             {
                 return new Benchmarkable[]
                 {
-                    // Count
-                    new Count(A,DIT),
-                    new Count(B,DIT),
-                    new Count(C,DIT),
-                    new Count(D,DIT),
+                    //new AddSorted(Containments, FIXED),
+                    //new ConstructSorted(Containments, FIXED),
 
-                    new Count(A,IBS),
-                    new Count(B,IBS),
-                    new Count(C,IBS),
-                    new Count(D,IBS),
+                    new AddRandom(Overlaps, FIXED),
+                    new ConstructRandom(Overlaps, FIXED),
 
-                    // Construct Add All In Constructor
-                    new ConstructAddAllInConstructor(A,DIT), 
-                    new ConstructAddAllInConstructor(B,DIT), 
-                    new ConstructAddAllInConstructor(C,DIT), 
-                    new ConstructAddAllInConstructor(D,DIT), 
+                    //new ConstructSortedReverse(NoOverlaps, FIXED), 
+                    //new AddSortedReverse(NoOverlaps, FIXED),
 
-                    new ConstructAddAllInConstructor(A,IBS), 
-                    new ConstructAddAllInConstructor(B,IBS), 
-                    new ConstructAddAllInConstructor(C,IBS), 
-                    new ConstructAddAllInConstructor(D,IBS), 
+                    //new ConstructRandom(NoOverlaps, FIXED), 
+                    //new AddRandom(NoOverlaps, FIXED),
+
+                    //new Enumerate(NoOverlaps, DIT), 
+                    //new Enumerate(NoOverlaps, IBS),
+                    //new Enumerate(NoOverlaps, IBSOLD),
+                    //new Enumerate(NoOverlaps, DLFIT),
+                    //new Enumerate(NoOverlaps, SFIL),
+
+                    //new AddSorted(NoOverlaps, DIT), 
+                    //new AddSorted(NoOverlaps, IBS),
+                    //new AddSorted(NoOverlaps, IBSOLD),
+                    //new AddSorted(NoOverlaps, DLFIT),
+
+                    //new AddSortedReverse(NoOverlaps, DIT), 
+                    //new AddSortedReverse(NoOverlaps, IBS),
+                    //new AddSortedReverse(NoOverlaps, IBSOLD),
+                    //new AddSortedReverse(NoOverlaps, DLFIT),
+
+                    //new AddRandom(NoOverlaps, DIT), 
+                    //new AddRandom(NoOverlaps, IBS),
+                    //new AddRandom(NoOverlaps, IBSOLD),
+                    //new AddRandom(NoOverlaps, DLFIT),
+
+                    /*
+                    // Enumerate
+                    new Enumerate(A,DIT),
+                    new Enumerate(B,DIT),
+                    new Enumerate(C,DIT),
+                    new Enumerate(D,DIT),
+
+                    new Enumerate(A,IBS),
+                    new Enumerate(B,IBS),
+                    new Enumerate(C,IBS),
+                    new Enumerate(D,IBS),
+
+                    // Construct Add All In Construct
+                    new Construct(A,DIT), 
+                    new Construct(B,DIT), 
+                    new Construct(C,DIT), 
+                    new Construct(D,DIT), 
+
+                    new Construct(A,IBS), 
+                    new Construct(B,IBS), 
+                    new Construct(C,IBS), 
+                    new Construct(D,IBS), 
 
                     // Construct Add Sorted
-                    new ConstructAddSorted(A, DIT), 
-                    new ConstructAddSorted(B, DIT), 
-                    new ConstructAddSorted(C, DIT),
-                    new ConstructAddSorted(D, DIT), 
+                    new AddSorted(A, DIT), 
+                    new AddSorted(B, DIT), 
+                    new AddSorted(C, DIT),
+                    new AddSorted(D, DIT), 
 
-                    new ConstructAddSorted(A, IBS), 
-                    new ConstructAddSorted(B, IBS), 
-                    new ConstructAddSorted(C, IBS), 
-                    new ConstructAddSorted(D, IBS), 
+                    new AddSorted(A, IBS), 
+                    new AddSorted(B, IBS), 
+                    new AddSorted(C, IBS), 
+                    new AddSorted(D, IBS), 
 
                     // Construct Add Unsorted
                     new ConstructAddUnsorted(A, DIT), 
@@ -120,12 +167,13 @@ namespace C5.Performance.Wpf
                     new QueryRangeSpan(B, IBS), 
                     new QueryRangeSpan(C, IBS), 
                     new QueryRangeSpan(D, IBS), 
+                    */
                 };
             }
         }
         #endregion
 
-        #region Constructor
+        #region Construct
         public Benchmarker()
         {
             MaxIterations = Convert.ToInt32(Math.Round(Math.Log(MaxCollectionSize)));

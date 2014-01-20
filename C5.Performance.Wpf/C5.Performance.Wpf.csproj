@@ -147,11 +147,11 @@
     <Compile Include="Benchmarks\Benchmarker.cs" />
     <Compile Include="Report Benchmarks\ConstructAddUnsorted.cs" />
     <Compile Include="Report Benchmarks\ConstructAddSorted.cs" />
-    <Compile Include="Report Benchmarks\ConstructAddAllInConstructor.cs" />
+    <Compile Include="Report Benchmarks\Construct.cs" />
     <Compile Include="Report Benchmarks\QueryRangeSpan.cs" />
     <Compile Include="Report Benchmarks\QueryRange.cs" />
     <Compile Include="Report Benchmarks\QueryStabbing.cs" />
-    <Compile Include="Report Benchmarks\Count.cs" />
+    <Compile Include="Report Benchmarks\Enumerate.cs" />
     <Compile Include="Benchmarks\IbsAvlOldIntervalSetsBenchmarker.cs" />
     <Compile Include="Benchmarks\DITSearchBenchmark.cs" />
     <Compile Include="Benchmarks\DITSearchIterativeBenchmark.cs" />
@@ -230,6 +230,10 @@
     <ProjectReference Include="..\..\C5.Intervals\C5\C5.csproj">
       <Project>{D02E0664-C56C-4C3F-98E5-C8EC881A8439}</Project>
       <Name>C5</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\C5.Intervals.Performance\C5.Intervals.Performance.csproj">
+      <Project>{AEC07245-F80B-4071-89BE-C3BED4F71A0C}</Project>
+      <Name>C5.Intervals.Performance</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

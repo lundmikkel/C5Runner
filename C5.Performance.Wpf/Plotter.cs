@@ -56,7 +56,7 @@ namespace C5.Performance.Wpf
                 {
                     Position = AxisPosition.Left,
                     AxisTitleDistance = 10,
-                    Title = "Execution Time in nanoseconds",
+                    Title = "Execution Time in milliseconds",
                     MajorGridlineStyle = LineStyle.Solid,
                     MinorGridlineStyle = LineStyle.Dot
                 };
@@ -105,12 +105,12 @@ namespace C5.Performance.Wpf
 
         public Benchmark ReadBenchmarkFromDisk(int number)
         {
-            return (Benchmark) x.Deserialize(File.OpenText(path+number+".xml"));
+            return (Benchmark) x.Deserialize(File.OpenText(path + number + ".xml"));
         }
 
         public void WriteDataToDisk(int indexOfAreaSeries, Benchmark benchmark)
         {
-            
+
             var areaSeries = PlotModel.Series[indexOfAreaSeries] as AreaSeries;
             if (areaSeries != null)
             {

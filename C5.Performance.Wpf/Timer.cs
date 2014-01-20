@@ -16,7 +16,7 @@
         /// <returns></returns>
         public double Check()
         {
-            return _stopwatch.ElapsedMilliseconds / 1000.0;
+            return _stopwatch.ElapsedMilliseconds;
         }
 
         public void Pause()

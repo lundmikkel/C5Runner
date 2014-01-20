@@ -85,7 +85,6 @@ namespace C5.Intervals.PerformanceRunner
             throw new Exception();
         }
 
-
         public static double FindFirstGap(IIntervalCollection<IInterval<int>, int> intervalCollection)
         {
             Action task = () => intervalCollection.Gaps.FirstOrDefault();

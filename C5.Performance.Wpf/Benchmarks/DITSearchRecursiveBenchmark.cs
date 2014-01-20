@@ -14,8 +14,8 @@ namespace C5.Performance.Wpf.Benchmarks
         {
             return -1;
 //            if (intervalId < CollectionSize)
-//                return _intervalCollection.FindOverlapsRecursive(_intervals[intervalId]).Count() > 0 ? 1 : 0;
-//            return _intervalCollection.FindOverlapsRecursive(_intervalsNot[intervalId - CollectionSize]).Count() > 0 ? 1 : 0;
+//                return _intervalCollection.FindOverlapsRecursive(_intervals[intervalId]).Enumerate() > 0 ? 1 : 0;
+//            return _intervalCollection.FindOverlapsRecursive(_intervalsNot[intervalId - CollectionSize]).Enumerate() > 0 ? 1 : 0;
         }
 
         public override void CollectionSetup()

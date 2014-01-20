@@ -42,10 +42,25 @@ namespace C5.Performance.Wpf.Report_Benchmarks
         {
             return !intervals.Any() ? new DynamicIntervalTree<IInterval<int>, int>() : new DynamicIntervalTree<IInterval<int>, int>(intervals);
         }
-        
+
         public static IIntervalCollection<IInterval<int>, int> IBS(IInterval<int>[] intervals)
         {
             return !intervals.Any() ? new IntervalBinarySearchTree<IInterval<int>, int>() : new IntervalBinarySearchTree<IInterval<int>, int>(intervals);
+        }
+
+        public static IIntervalCollection<IInterval<int>, int> IBSOLD(IInterval<int>[] intervals)
+        {
+            return !intervals.Any() ? new IntervalBinarySearchTreeOld<IInterval<int>, int>() : new IntervalBinarySearchTreeOld<IInterval<int>, int>(intervals);
+        }
+
+        public static IIntervalCollection<IInterval<int>, int> DLFIT(IInterval<int>[] intervals)
+        {
+            return !intervals.Any() ? new DoublyLinkedFiniteIntervalTree<IInterval<int>, int>() : new DoublyLinkedFiniteIntervalTree<IInterval<int>, int>(intervals);
+        }
+
+        public static IIntervalCollection<IInterval<int>, int> SFIL(IInterval<int>[] intervals)
+        {
+            return new StaticFiniteIntervalList<IInterval<int>, int>(intervals);
         }
 
         protected IntervalBenchmarkable(Func<int, IInterval<int>[]> intervalConstruction, Func<IInterval<int>[], IIntervalCollection<IInterval<int>, int>> intervalCollectionConstruction)
