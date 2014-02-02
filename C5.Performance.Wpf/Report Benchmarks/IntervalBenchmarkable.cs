@@ -53,6 +53,26 @@ namespace C5.Performance.Wpf.Report_Benchmarks
             return !intervals.Any() ? new IntervalBinarySearchTreeOld<IInterval<int>, int>() : new IntervalBinarySearchTreeOld<IInterval<int>, int>(intervals);
         }
 
+        public static IIntervalCollection<IInterval<int>, int> LCList(IInterval<int>[] intervals)
+        {
+            return new LayeredContainmentList<IInterval<int>, int>(intervals);
+        }
+
+        public static IIntervalCollection<IInterval<int>, int> NCList(IInterval<int>[] intervals)
+        {
+            return new NestedContainmentList<IInterval<int>, int>(intervals);
+        }
+
+        public static IIntervalCollection<IInterval<int>, int> SIT(IInterval<int>[] intervals)
+        {
+            return new StaticIntervalTree<IInterval<int>, int>(intervals);
+        }
+
+        public static IIntervalCollection<IInterval<int>, int> BITS(IInterval<int>[] intervals)
+        {
+            return new BinaryIntervalSearch<IInterval<int>, int>(intervals);
+        }
+
         public static IIntervalCollection<IInterval<int>, int> DLFIT(IInterval<int>[] intervals)
         {
             return !intervals.Any() ? new DoublyLinkedFiniteIntervalTree<IInterval<int>, int>() : new DoublyLinkedFiniteIntervalTree<IInterval<int>, int>(intervals);

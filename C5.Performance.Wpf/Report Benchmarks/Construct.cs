@@ -38,7 +38,7 @@ namespace C5.Performance.Wpf.Report_Benchmarks
 
         internal override void Order()
         {
-            Sorting.IntroSort(Intervals, 0, CollectionSize, IntervalExtensions.CreateComparer<IInterval<int>, int>());
+            C5.Sorting.IntroSort(Intervals, 0, CollectionSize, IntervalExtensions.CreateComparer<IInterval<int>, int>());
         }
     }
 
@@ -50,7 +50,7 @@ namespace C5.Performance.Wpf.Report_Benchmarks
 
         internal override void Order()
         {
-            Sorting.IntroSort(Intervals, 0, CollectionSize, IntervalExtensions.CreateReversedComparer<IInterval<int>, int>());
+            C5.Sorting.IntroSort(Intervals, 0, CollectionSize, IntervalExtensions.CreateReversedComparer<IInterval<int>, int>());
         }
     }
 

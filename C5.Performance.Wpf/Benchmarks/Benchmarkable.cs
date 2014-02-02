@@ -48,7 +48,7 @@ namespace C5.Performance.Wpf.Benchmarks
                     for (var i = 0; i < count; i++)
                     {
                         Setup();
-                        GC.Collect();
+                        //GC.Collect();
 
                         t.Play();
                         dummy += Call(ItemsArray[i % CollectionSize]);

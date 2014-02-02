@@ -145,6 +145,12 @@
     <Compile Include="Benchmarks\Benchmark.cs" />
     <Compile Include="Benchmarks\Benchmarkable.cs" />
     <Compile Include="Benchmarks\Benchmarker.cs" />
+    <Compile Include="Benchmarks\Sorting - Copy.cs" />
+    <Compile Include="Benchmarks\Sorting.cs" />
+    <Compile Include="IIntervalCollection Benchmarks\FindOverlapBenchmarkable.cs" />
+    <Compile Include="IIntervalCollection Benchmarks\CountOverlapsBenchmarkable.cs" />
+    <Compile Include="IIntervalCollection Benchmarks\EnumerableBenchmarkable.cs" />
+    <Compile Include="IIntervalCollection Benchmarks\GapsBenchmarkable.cs" />
     <Compile Include="Report Benchmarks\ConstructAddUnsorted.cs" />
     <Compile Include="Report Benchmarks\ConstructAddSorted.cs" />
     <Compile Include="Report Benchmarks\Construct.cs" />
@@ -230,6 +236,10 @@
     <ProjectReference Include="..\..\C5.Intervals\C5\C5.csproj">
       <Project>{D02E0664-C56C-4C3F-98E5-C8EC881A8439}</Project>
       <Name>C5</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\timsort4net\TimSort\TimSort.csproj">
+      <Project>{ae2ca992-0c52-4978-9bfe-4e75b95395a1}</Project>
+      <Name>TimSort</Name>
     </ProjectReference>
     <ProjectReference Include="..\C5.Intervals.Performance\C5.Intervals.Performance.csproj">
       <Project>{AEC07245-F80B-4071-89BE-C3BED4F71A0C}</Project>

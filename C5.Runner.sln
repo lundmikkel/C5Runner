@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C5.IntervalHotSpots", "C5.IntervalHotSpots\C5.IntervalHotSpots.csproj", "{FF3DEB1E-D19F-49B4-A73D-CA8544F9B113}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C5.Performance.Wpf", "C5.Performance.Wpf\C5.Performance.Wpf.csproj", "{2FDF20F0-55AF-4A44-90ED-E658ADD5D500}"
@@ -36,7 +38,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		Performance1.psess = Performance1.psess
 		Performance2.psess = Performance2.psess
+		Performance3.psess = Performance3.psess
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimSort", "..\timsort4net\TimSort\TimSort.csproj", "{AE2CA992-0C52-4978-9BFE-4E75B95395A1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMS.Library.Intervals", "SMS.Library.Intervals\SMS.Library.Intervals.csproj", "{A20676DB-A1ED-490C-A3DE-A7083A7B059A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -117,8 +124,23 @@ Global
 		{AEC07245-F80B-4071-89BE-C3BED4F71A0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AEC07245-F80B-4071-89BE-C3BED4F71A0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AEC07245-F80B-4071-89BE-C3BED4F71A0C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE2CA992-0C52-4978-9BFE-4E75B95395A1}.CodeAnalysis|Any CPU.ActiveCfg = Release|Any CPU
+		{AE2CA992-0C52-4978-9BFE-4E75B95395A1}.CodeAnalysis|Any CPU.Build.0 = Release|Any CPU
+		{AE2CA992-0C52-4978-9BFE-4E75B95395A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE2CA992-0C52-4978-9BFE-4E75B95395A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE2CA992-0C52-4978-9BFE-4E75B95395A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE2CA992-0C52-4978-9BFE-4E75B95395A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A20676DB-A1ED-490C-A3DE-A7083A7B059A}.CodeAnalysis|Any CPU.ActiveCfg = Release|Any CPU
+		{A20676DB-A1ED-490C-A3DE-A7083A7B059A}.CodeAnalysis|Any CPU.Build.0 = Release|Any CPU
+		{A20676DB-A1ED-490C-A3DE-A7083A7B059A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A20676DB-A1ED-490C-A3DE-A7083A7B059A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A20676DB-A1ED-490C-A3DE-A7083A7B059A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A20676DB-A1ED-490C-A3DE-A7083A7B059A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
 	EndGlobalSection
 EndGlobal

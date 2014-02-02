@@ -198,7 +198,7 @@ namespace C5.Intervals.Tests
 
     public static class Utils
     {
-        static readonly Random Random = new Random(0);
+        static readonly Random Random = new Random();
 
         public static void Shuffle<T>(this T[] list)
         {

@@ -20,7 +20,7 @@ namespace C5.Performance.Wpf.Benchmarks
             // Get the number of trains from the csv file matching the collectionsize
             _trains = TrainUtilities.GetTrains(CollectionSize);
 
-            Sorting.IntroSort(_trains, 0, CollectionSize, IntervalExtensions.CreateComparer<Trains.TrainRide, double>());
+            C5.Sorting.IntroSort(_trains, 0, CollectionSize, IntervalExtensions.CreateComparer<Trains.TrainRide, double>());
 
             /*
              * Setup an items array with things to look for. Not used in this benchmark.
@@ -30,7 +30,7 @@ namespace C5.Performance.Wpf.Benchmarks
 
         public override void Setup()
         {
-//            _trains.Shuffle();
+            //            _trains.Shuffle();
         }
 
         public override double Call(int i)
