@@ -51,15 +51,17 @@ namespace C5.Performance.Wpf
         private static readonly Func<IInterval<int>[], IIntervalCollection<IInterval<int>, int>> IBSOLD = IntervalBenchmarkable.IBSOLD;
         private static readonly Func<IInterval<int>[], IIntervalCollection<IInterval<int>, int>> LCList = IntervalBenchmarkable.LCList;
         private static readonly Func<IInterval<int>[], IIntervalCollection<IInterval<int>, int>> NCList = IntervalBenchmarkable.NCList;
+        private static readonly Func<IInterval<int>[], IIntervalCollection<IInterval<int>, int>> NCList2 = IntervalBenchmarkable.NCList2;
+        private static readonly Func<IInterval<int>[], IIntervalCollection<IInterval<int>, int>> NCListArticle = IntervalBenchmarkable.NCListArticle;
         private static readonly Func<IInterval<int>[], IIntervalCollection<IInterval<int>, int>> SIT = IntervalBenchmarkable.SIT;
         private static readonly Func<IInterval<int>[], IIntervalCollection<IInterval<int>, int>> BITS = IntervalBenchmarkable.BITS;
         private static readonly Func<IInterval<int>[], IIntervalCollection<IInterval<int>, int>> DLFIT = IntervalBenchmarkable.DLFIT;
         private static readonly Func<IInterval<int>[], IIntervalCollection<IInterval<int>, int>> SFIL = IntervalBenchmarkable.SFIL;
 
-        private static readonly Action<DateTime[]> c5timsorter = C5.Sorting.Timsort;
-        private static readonly Action<DateTime[]> introsorter = C5.Sorting.IntroSort;
-        private static readonly Action<DateTime[]> arraysorter = Array.Sort;
-        private static readonly Action<DateTime[]> timsorter = TimSortExtender.TimSort;
+        //private static readonly Action<DateTime[]> c5timsorter = C5.Sorting.Timsort;
+        //private static readonly Action<DateTime[]> introsorter = C5.Sorting.IntroSort;
+        //private static readonly Action<DateTime[]> arraysorter = Array.Sort;
+        //private static readonly Action<DateTime[]> timsorter = TimSortExtender.TimSort;
 
         // These are the benchmarks that will be run by the benchmarker.
         private static Benchmarkable[] Benchmarks
@@ -69,6 +71,18 @@ namespace C5.Performance.Wpf
             {
                 return new Benchmarkable[]
                 {
+                    // Query Range
+                    new QueryRange(A, LCList), 
+                    new QueryRange(B, LCList), 
+                    new QueryRange(C, LCList), 
+                    new QueryRange(D, LCList),
+
+                    // Query Range
+                    new QueryRange(A, NCList), 
+                    new QueryRange(B, NCList), 
+                    new QueryRange(C, NCList), 
+                    new QueryRange(D, NCList),
+
                     //new GapsBenchmarkable_GapsLast(NoOverlaps, DIT), 
                     //new GapsBenchmarkable_GapsLast(NoOverlaps, IBS), 
                     //new GapsBenchmarkable_GapsLast(NoOverlaps, LCList), 
@@ -81,8 +95,9 @@ namespace C5.Performance.Wpf
 
                     //new EnumerableBenchmarkable_GetEnumerator(Overlaps, DIT), 
                     //new EnumerableBenchmarkable_GetEnumerator(Overlaps, IBS), 
-                    //new EnumerableBenchmarkable_GetEnumerator(Overlaps, LCList), 
-                    //new EnumerableBenchmarkable_GetEnumerator(Overlaps, NCList), 
+                    //new EnumerableBenchmarkable_GetEnumerator(Overlaps, LCList),
+                    //new EnumerableBenchmarkable_GetEnumerator(Overlaps, NCList2),
+                    //new EnumerableBenchmarkable_GetEnumerator(Overlaps, NCListArticle),
                     //new EnumerableBenchmarkable_GetEnumerator(Overlaps, SIT), 
                     //new EnumerableBenchmarkable_GetEnumerator(Overlaps, BITS),
                     
@@ -97,12 +112,12 @@ namespace C5.Performance.Wpf
                     //new CountOverlapsBenchmarkable_CountOverlapsRange(NoOverlaps, SFIL),
                     
 
-                    new CountOverlapsBenchmarkable_CountOverlapsStabbing(Overlaps, DIT), 
-                    new CountOverlapsBenchmarkable_CountOverlapsStabbing(Overlaps, IBS), 
-                    new CountOverlapsBenchmarkable_CountOverlapsStabbing(Overlaps, LCList), 
-                    new CountOverlapsBenchmarkable_CountOverlapsStabbing(Overlaps, NCList), 
-                    new CountOverlapsBenchmarkable_CountOverlapsStabbing(Overlaps, SIT), 
-                    new CountOverlapsBenchmarkable_CountOverlapsStabbing(Overlaps, BITS), 
+                    //new CountOverlapsBenchmarkable_CountOverlapsStabbing(Overlaps, DIT), 
+                    //new CountOverlapsBenchmarkable_CountOverlapsStabbing(Overlaps, IBS), 
+                    //new CountOverlapsBenchmarkable_CountOverlapsStabbing(Overlaps, LCList), 
+                    //new CountOverlapsBenchmarkable_CountOverlapsStabbing(Overlaps, NCList), 
+                    //new CountOverlapsBenchmarkable_CountOverlapsStabbing(Overlaps, SIT), 
+                    //new CountOverlapsBenchmarkable_CountOverlapsStabbing(Overlaps, BITS), 
                     //new CountOverlapsBenchmarkable_CountOverlapsStabbing(Overlaps, DLFIT), 
                     //new CountOverlapsBenchmarkable_CountOverlapsStabbing(Overlaps, SFIL),
                     
