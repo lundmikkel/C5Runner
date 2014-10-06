@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics.Contracts;
 using System.IO;
-using System.Text;
+using System.Runtime.Serialization;
 using System.Linq;
 using C5.Intervals;
 using Microsoft.VisualBasic.FileIO;
@@ -14,7 +14,7 @@ namespace C5.Ucsc
     {
     }
 
-    class UcscHumanGenomeParser
+    public class UcscHumanGenomeParser
     {
         public static IEnumerable<SequenceInterval> ParseCompressedMaf(string source)
         {
@@ -179,9 +179,9 @@ namespace C5.Ucsc
                         return Animal.Cat;
                     case "canFam2":
                         return Animal.Dog;
-                }
-
+                    default:
                 return Animal.Unknown;
+            }
             }
 
             #endregion
@@ -236,41 +236,38 @@ namespace C5.Ucsc
                     if (line.StartsWith("s"))
                     {
                         var animal = SequenceInterval.Parse(line);
-
                         if (animal.Type != Animal.Unknown)
                         {
-                            var alignmentInterval = makeAlignmentInterval(human, animal);
+                            SequenceInterval alignmentInterval;
+                            if (makeAlignmentInterval(human, animal, out alignmentInterval))
+                            {
                             var alignment = new Alignment(alignmentInterval, animal);
-
                             sw.WriteLine(alignment);
                         }
                     }
                 }
             }
         }
+        }
 
-        private static SequenceInterval makeAlignmentInterval(SequenceInterval human, SequenceInterval animal)
+        private static bool makeAlignmentInterval(SequenceInterval human, SequenceInterval animal, out SequenceInterval alignmentInterval)
         {
             var low = human.Low;
             var high = human.High;
 
-            var i = 0;
-
             // Make reference interval shorter by incrementing low
-            while (animal.Sequence[i].CompareTo('-') == 0)
-            {
+            for (var i = 0; animal.Sequence[i].CompareTo('-') == 0; ++i)
                 if (human.Sequence[i].CompareTo('-') != 0)
-                    low++;
-
-                i++;
-            }
+                    ++low;
 
             // Make reference interval shorter by incrementing low
-            for (var j = animal.Sequence.Length - 1; animal.Sequence[j].CompareTo('-') == 0 && i < j; j--)
-                if (human.Sequence[j].CompareTo('-') != 0)
-                    high--;
+            for (var i = animal.Sequence.Length - 1; animal.Sequence[i].CompareTo('-') == 0; --i)
+                if (human.Sequence[i].CompareTo('-') != 0)
+                    --high;
 
-            return new SequenceInterval(human, low, high);
+            var result = low < high;
+            alignmentInterval = result ? new SequenceInterval(human, low, high) : null;
+            return result;
         }
 
         internal struct UcscHumanAlignmentGene : IInterval<int>
