@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics.Contracts;
 using System.IO;
-using System.Runtime.Serialization;
 using System.Linq;
 using C5.Intervals;
 using Microsoft.VisualBasic.FileIO;
@@ -14,11 +13,11 @@ namespace C5.Ucsc
     {
     }
 
-    public class UcscHumanGenomeParser
+    class UcscHumanGenomeParser
     {
         public static IEnumerable<SequenceInterval> ParseCompressedMaf(string source)
         {
-            var intervals = new ArrayList<SequenceInterval>(3000000);
+            var intervals = new ArrayList<SequenceInterval>(13026325);
 
             using (var sr = new StreamReader(source))
             {
@@ -180,8 +179,8 @@ namespace C5.Ucsc
                     case "canFam2":
                         return Animal.Dog;
                     default:
-                return Animal.Unknown;
-            }
+                        return Animal.Unknown;
+                }
             }
 
             #endregion
@@ -241,13 +240,13 @@ namespace C5.Ucsc
                             SequenceInterval alignmentInterval;
                             if (makeAlignmentInterval(human, animal, out alignmentInterval))
                             {
-                            var alignment = new Alignment(alignmentInterval, animal);
-                            sw.WriteLine(alignment);
+                                var alignment = new Alignment(alignmentInterval, animal);
+                                sw.WriteLine(alignment);
+                            }
                         }
                     }
                 }
             }
-        }
         }
 
         private static bool makeAlignmentInterval(SequenceInterval human, SequenceInterval animal, out SequenceInterval alignmentInterval)

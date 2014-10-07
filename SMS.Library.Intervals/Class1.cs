@@ -14,7 +14,7 @@ namespace SMS.Library.Intervals
         {
             // Add
 
-            var node = _root;
+            //var node = _root;
         }
     }
 }

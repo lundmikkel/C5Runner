@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using C5.Intervals;
 
 namespace C5.Ucsc
@@ -8,18 +9,16 @@ namespace C5.Ucsc
     {
         public static void Main(string[] args)
         {
-            //var interval = IntervalExtensions.ParseIntInterval("[12:13)");
-
-            //Console.Out.WriteLine(interval);
-
             /*
+            
             UcscHumanGenomeParser.ParseMafToAlignments("//VBOXSVR/maf/raw/chr1.maf", "//VBOXSVR/maf/parsed/chr1.compressed.txt");
+            
             /*/
-
 
             var sw = new Stopwatch();
             sw.Start();
-            var intervals = UcscHumanGenomeParser.ParseCompressedMaf("//VBOXSVR/maf/parsed/chr1.compressed.txt");
+            var intervals = UcscHumanGenomeParser.ParseCompressedMaf("//VBOXSVR/maf/parsed/chr1.compressed.txt").ToArray();
+            Sorting.Timsort(intervals, IntervalExtensions.CreateComparer<UcscHumanGenomeParser.SequenceInterval, int>());
             Console.WriteLine("Reading the intervals: " + sw.ElapsedMilliseconds + " ms");
 
             sw.Restart();
@@ -34,24 +33,14 @@ namespace C5.Ucsc
             sw.Restart();
             var lclistnew = new LayeredContainmentListNew<UcscHumanGenomeParser.SequenceInterval, int>(intervals);
             Console.WriteLine("LCListNew: " + sw.ElapsedMilliseconds + " ms");
-            //Console.Out.WriteLine(lclistnew.Count);
-            //Console.Out.WriteLine(lclistnew.ContainmentDegree);
-            //Console.Out.WriteLine(lclistnew.MaximumDepth);
-            //Console.Out.WriteLine(lclistnew.CountOverlaps(270000000));
 
             sw.Restart();
             var nclist = new NestedContainmentList<UcscHumanGenomeParser.SequenceInterval, int>(intervals);
             Console.WriteLine("NCList: " + sw.ElapsedMilliseconds + " ms");
-            //Console.Out.WriteLine(nclist.Count);
-            //Console.Out.WriteLine(nclist.MaximumDepth);
-            //Console.Out.WriteLine(nclist.CountOverlaps(270000000));
 
             sw.Restart();
             var nclistnew = new NestedContainmentListArticle<UcscHumanGenomeParser.SequenceInterval, int>(intervals);
             Console.WriteLine("NCListArticle: " + sw.ElapsedMilliseconds + " ms");
-            //Console.Out.WriteLine(nclistnew.Count);
-            //Console.Out.WriteLine(nclistnew.MaximumDepth);
-            //Console.Out.WriteLine(nclistnew.CountOverlaps(270000000));
 
             //*/
 

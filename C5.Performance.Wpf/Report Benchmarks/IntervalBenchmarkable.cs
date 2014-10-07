@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Text.RegularExpressions;
 using C5.Intervals;
-using C5.intervals;
 using C5.Performance.Wpf.Benchmarks;
 using C5.Intervals.Tests;
 
