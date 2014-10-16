@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 
 namespace C5.Performance.Wpf.Benchmarks
 {
