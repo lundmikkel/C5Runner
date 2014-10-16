@@ -34,6 +34,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="C5">
+      <HintPath>..\..\C5.Intervals\C5.UserGuideExamples\bin\Release\C5.dll</HintPath>
+    </Reference>
+    <Reference Include="C5.Intervals">
+      <HintPath>..\..\C5.Intervals\C5.UserGuideExamples\bin\Release\C5.Intervals.dll</HintPath>
+    </Reference>
     <Reference Include="SimpleSpeedTester">
       <HintPath>..\packages\SimpleSpeedTester.1.1.0\lib\net40\SimpleSpeedTester.dll</HintPath>
     </Reference>
@@ -50,18 +56,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\C5.Intervals\C5.Intervals.Tests\C5.Intervals.Tests.csproj">
-      <Project>{fce2de54-8506-43bf-aa94-07706b08a527}</Project>
-      <Name>C5.Intervals.Tests</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\C5.Intervals\C5.Intervals\C5.Intervals.csproj">
-      <Project>{6c61dd88-12ec-4a7d-907c-56a8fd72edb2}</Project>
-      <Name>C5.Intervals</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\C5.Intervals\C5\C5.csproj">
-      <Project>{D02E0664-C56C-4C3F-98E5-C8EC881A8439}</Project>
-      <Name>C5</Name>
-    </ProjectReference>
     <ProjectReference Include="..\C5.Intervals.Performance\C5.Intervals.Performance.csproj">
       <Project>{aec07245-f80b-4071-89be-c3bed4f71a0c}</Project>
       <Name>C5.Intervals.Performance</Name>

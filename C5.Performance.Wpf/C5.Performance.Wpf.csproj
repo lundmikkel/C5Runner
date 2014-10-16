@@ -115,6 +115,15 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="C5">
+      <HintPath>..\..\C5.Intervals\C5.UserGuideExamples\bin\Release\C5.dll</HintPath>
+    </Reference>
+    <Reference Include="C5.Intervals">
+      <HintPath>..\..\C5.Intervals\C5.UserGuideExamples\bin\Release\C5.Intervals.dll</HintPath>
+    </Reference>
+    <Reference Include="C5.UserGuideExamples">
+      <HintPath>..\..\C5.Intervals\C5.UserGuideExamples\bin\Release\C5.UserGuideExamples.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework, Version=2.6.3.13283, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
@@ -225,18 +234,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\C5.Intervals\C5.Intervals\C5.Intervals.csproj">
-      <Project>{6c61dd88-12ec-4a7d-907c-56a8fd72edb2}</Project>
-      <Name>C5.Intervals</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\C5.Intervals\C5.UserGuideExamples\C5.UserGuideExamples.csproj">
-      <Project>{b2a29ff2-a5c5-4f07-8ce7-ff5d744d7562}</Project>
-      <Name>C5.UserGuideExamples</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\C5.Intervals\C5\C5.csproj">
-      <Project>{D02E0664-C56C-4C3F-98E5-C8EC881A8439}</Project>
-      <Name>C5</Name>
-    </ProjectReference>
     <ProjectReference Include="..\C5.Intervals.Performance\C5.Intervals.Performance.csproj">
       <Project>{AEC07245-F80B-4071-89BE-C3BED4F71A0C}</Project>
       <Name>C5.Intervals.Performance</Name>

@@ -54,12 +54,6 @@
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\C5.Intervals\C5.UserGuideExamples\C5.UserGuideExamples.csproj">
-      <Project>{b2a29ff2-a5c5-4f07-8ce7-ff5d744d7562}</Project>
-      <Name>C5.UserGuideExamples</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

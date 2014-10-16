@@ -32,6 +32,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="C5">
+      <HintPath>..\..\C5.Intervals\C5\bin\Release\C5.dll</HintPath>
+    </Reference>
+    <Reference Include="C5.Intervals">
+      <HintPath>..\..\C5.Intervals\C5.Intervals\bin\Release\C5.Intervals.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
     </Reference>
@@ -47,12 +53,6 @@
     <Compile Include="IntervalFactoryTest.cs" />
     <Compile Include="IntervalsFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\C5.Intervals\C5.Intervals\C5.Intervals.csproj">
-      <Project>{6C61DD88-12EC-4A7D-907C-56A8FD72EDB2}</Project>
-      <Name>C5.Intervals</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
