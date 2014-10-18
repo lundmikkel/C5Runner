@@ -43,17 +43,17 @@ namespace C5.Performance.Wpf.Benchmarks
                 {
                     caller.UpdateRunningLabel(String.Format("Benchmarking {0} calls {1} of {2} times", count, (j + 1), repeats));
 
-                    var t = new Timer();
-                    for (var i = 0; i < count; i++)
+                    var timer = new Timer();
+                    for (var i = 0; i < count; ++i)
                     {
                         Setup();
                         //GC.Collect();
 
-                        t.Play();
+                        timer.Play();
                         dummy += Call(ItemsArray[i % CollectionSize]);
-                        t.Pause();
+                        timer.Pause();
                     }
-                    runningTimeInMilliSeconds = t.Check();
+                    runningTimeInMilliSeconds = timer.Check();
                     var time = runningTimeInMilliSeconds / count;
                     times.Add(time);
                     elapsedTime += time;
@@ -63,7 +63,7 @@ namespace C5.Performance.Wpf.Benchmarks
 
             var meanTime = elapsedTime / repeats;
 
-            caller.UpdateRunningLabel("");
+            caller.UpdateRunningLabel();
 
             return new Benchmark
                 {

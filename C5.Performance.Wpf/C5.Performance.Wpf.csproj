@@ -154,6 +154,7 @@
     <Compile Include="Benchmarks\Benchmark.cs" />
     <Compile Include="Benchmarks\Benchmarkable.cs" />
     <Compile Include="Benchmarks\Benchmarker.cs" />
+    <Compile Include="Benchmarks\Benchmarks.cs" />
     <Compile Include="Benchmarks\Sorting - Copy.cs" />
     <Compile Include="Benchmarks\Sorting.cs" />
     <Compile Include="IIntervalCollection Benchmarks\FindOverlapBenchmarkable.cs" />
