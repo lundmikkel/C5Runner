@@ -35,15 +35,15 @@ namespace C5.Intervals.Performance
         {
             var intervals = IntervalsFactory.ConstantLengthMeets(10, 1, 0).ToList();
 
-            Assert.IsTrue(intervals.IsContiguous());
+            Assert.That(intervals.IsContiguous());
         }
 
         [Test]
         public void OverlapsConstantLengthTest()
         {
-            var intervals = IntervalsFactory.OverlapsConstantLength(10, 0).ToList();
+            var intervals = IntervalsFactory.OverlapsConstantLength(10, 5, -4, 0).ToList();
 
-            Assert.IsTrue(intervals[9].High == 19);
+            Assert.That(intervals[9].High, Is.EqualTo(14));
         }
 
         [Test]
@@ -74,6 +74,12 @@ namespace C5.Intervals.Performance
 
             Assert.IsTrue(intervals[2].Low == 2);
             Assert.IsTrue(intervals[2].High == 3);
+        }
+
+        [Test]
+        public void ContainmentListTest()
+        {
+            var intervals = IntervalsFactory.ContainmentListIntervals(10000, 1000 * 1000).ToArray();
         }
     }
 }

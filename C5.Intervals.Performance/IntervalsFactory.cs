@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-using System.Diagnostics.Contracts;
-using NUnit.Framework;
+﻿using System.Diagnostics.Contracts;
 
 namespace C5.Intervals.Performance
 {
@@ -20,7 +18,7 @@ namespace C5.Intervals.Performance
             while (true)
             {
                 yield return new IntervalBase<int>(low, high);
-                count++;
+                ++count;
 
                 low = high + gap(count);
                 high = low + intervalLength(count);
@@ -134,12 +132,34 @@ namespace C5.Intervals.Performance
             return PineTreeForest(count, 5).ToArray();
         }
 
-        public static IEnumerable<IInterval<int>> PineTreeForest(int count, int depth = 5, int offset = 0)
+        public static IEnumerable<IInterval<int>> PineTreeForest(int count, int depth, int offset = 0)
         {
             return CreateIntervalStream(
                 i => (depth - i % depth) * 2 - 1,
                 i => i % depth == 0 ? depth : (i % depth - depth) * 2,
                 offset).Take(count);
+        }
+
+        public static IEnumerable<IInterval<int>> ContainmentListIntervals(int count, int highestLow)
+        {
+            Contract.Requires(0 <= count);
+            Contract.Requires(count % 5 == 0);
+            Contract.Requires(highestLow > 0);
+            Contract.Ensures((count == 0) != Contract.Result<IEnumerable<IInterval<int>>>().Any());
+            Contract.Ensures(
+                Contract.ForAll(
+                    new[] { 1, 10, 100, 1000, 10000 },
+                    length => Contract.Result<IEnumerable<IInterval<int>>>().Count(x => x.High - x.Low == length) == count / 5
+                )
+            );
+
+            count /= 5;
+            var random = new Random();
+            int low;
+
+            for (var length = 1; length <= 10000; length *= 10)
+                for (var i = 0; i < count; ++i)
+                    yield return new IntervalBase<int>(low = random.Next(0, highestLow), low + length);
         }
     }
 }
