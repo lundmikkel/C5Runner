@@ -12,10 +12,10 @@ namespace C5.Intervals.Tests
     // TODO: Move tests to the new benchmarker
 
     [TestFixture, Ignore]
-    public class searchBenchmarker
+    public class SearchBenchmarker
     {
         private IInterval<int>[][] _intervalLayers;
-        private int repetitions = 1000000;
+        private const int Repetitions = 1000000;
 
         [SetUp]
         public void SetUp()
@@ -40,8 +40,8 @@ namespace C5.Intervals.Tests
 
             sw.Stop();
 
-            Console.WriteLine("Time: {0}",
-                (float) sw.ElapsedMilliseconds / repetitions * 1000
+            Console.WriteLine(@"Time: {0}",
+                (float) sw.ElapsedMilliseconds / Repetitions * 1000
             );
         }
 
@@ -105,7 +105,7 @@ namespace C5.Intervals.Tests
 
             for (int i = 0; i < 100; i++)
                 foreach (var interval in intervals.Sorted)
-                    interval.Equals(interval);
+                    interval.IntervalEquals(interval);
 
             sw.Stop();
 
@@ -253,7 +253,7 @@ namespace C5.Intervals.Tests
                 1000000*/
             };
 
-        public static int[] DoubleCounts = new[]
+        public static int[] DoubleCounts =
             {
                 8000 * (int) Math.Pow(2, 0),
                 8000 * (int) Math.Pow(2, 1),
@@ -269,17 +269,17 @@ namespace C5.Intervals.Tests
                 8000 * (int) Math.Pow(2, 11)
             };
 
-        public static int[] QueryLengths = new[]
+        public static int[] QueryLengths =
             {
-                 100,
-                 200,
-                 300,
-                 400,
-                 500,
-                 600,
-                 700,
-                 800,
-                 900,
+                100,
+                200,
+                300,
+                400,
+                500,
+                600,
+                700,
+                800,
+                900,
                 1000
             };
 
@@ -447,7 +447,7 @@ namespace C5.Intervals.Tests
             sw.Stop();
 
             writeTest("Construct", dataset, intervals.Length, sw.ElapsedMilliseconds / repetitions);
-            Console.WriteLine("Average construction time for {0} intervals: {1} ms",
+            Console.WriteLine(@"Average construction time for {0} intervals: {1} ms",
                 intervals.Length,
                 sw.ElapsedMilliseconds / repetitions
             );
@@ -479,7 +479,7 @@ namespace C5.Intervals.Tests
             sw.Stop();
 
             writeTest("SearchTime", dataset, IntervalCollection.Count, (float) sw.ElapsedMilliseconds / repetitions * 1000);
-            Console.WriteLine("Average search time for {0} intervals: {1} µs", IntervalCollection.Count, (float) sw.ElapsedMilliseconds / repetitions * 1000);
+            Console.WriteLine(@"Average search time for {0} intervals: {1} µs", IntervalCollection.Count, (float) sw.ElapsedMilliseconds / repetitions * 1000);
         }
 
         [Test, Combinatorial, Ignore]
@@ -505,7 +505,7 @@ namespace C5.Intervals.Tests
 
             writeTest("FindOverlaps", dataset, length, (float) sw.ElapsedMilliseconds / repetitions * 1000);
 
-            Console.WriteLine("Average query time for {0} intervals (query length: {1}): {2} µs",
+            Console.WriteLine(@"Average query time for {0} intervals (query length: {1}): {2} µs",
                 IntervalCollection.Count,
                 length,
                 (float) sw.ElapsedMilliseconds / repetitions * 1000
@@ -535,14 +535,14 @@ namespace C5.Intervals.Tests
 
             writeTest("CountOverlaps", dataset, length, (float) sw.ElapsedMilliseconds / repetitions * 1000);
 
-            Console.WriteLine("Average count time for {0} intervals (query length: {1}): {2} µs",
+            Console.WriteLine(@"Average count time for {0} intervals (query length: {1}): {2} µs",
                 IntervalCollection.Count,
                 length,
                 (float) sw.ElapsedMilliseconds / repetitions * 1000
             );
         }
 
-        private void writeTest(string methodName, string dataSet, float x, float y)
+        private void writeTest(string methodName, string dataSet, double x, double y)
         {
             if (BenchmarkTestCases.Benchmarking)
             {
@@ -551,11 +551,7 @@ namespace C5.Intervals.Tests
 
                 using (var f = File.AppendText(filename))
                 {
-                    f.WriteLine(String.Format(
-                        //new System.Globalization.CultureInfo("en-US"),
-                        "{0:n1}\t{1:n3}",
-                        x, y
-                                    ));
+                    f.WriteLine("{0:n1}\t{1:n3}", x, y);
                 }
             }
         }
