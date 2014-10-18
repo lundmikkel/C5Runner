@@ -9,29 +9,24 @@ namespace C5.Performance.Wpf
 {
     public class Plotter
     {
+        #region Fields
+
         public PlotModel PlotModel { get; set; }
+        private int _benchmarkCounter;
+        readonly XmlSerializer _serializer = new XmlSerializer(typeof(Benchmark));
+        private const string Path = "benchmarks/benchmark";
 
-        public static Plotter CreatePlotter()
-        {
-            return new Plotter();
-        }
+        #endregion
 
-        private Plotter()
+        #region Constructors
+
+        public Plotter()
         {
             PlotModel = new PlotModel();
             setUpModel();
         }
 
-        /// <summary>
-        /// Export the plot as a pdf file
-        /// </summary>
-        /// <param name="path">The file path where the pdf should be created</param>
-        /// <param name="width">Width in pixels of the generated pfd</param>
-        /// <param name="height">Height in pixels of the generated pfd</param>
-        public void ExportPdf(String path, double width, double height)
-        {
-            PdfExporter.Export(PlotModel, new StreamWriter(path).BaseStream, width, height);
-        }
+        #endregion
 
         /// <summary>
         /// Prepare the plotter
@@ -53,13 +48,13 @@ namespace C5.Performance.Wpf
 
             // Comment in the line with the axis you want
             var valueAxis = new LinearAxis
-                {
-                    Position = AxisPosition.Left,
-                    AxisTitleDistance = 10,
-                    Title = "Execution Time in milliseconds",
-                    MajorGridlineStyle = LineStyle.Solid,
-                    MinorGridlineStyle = LineStyle.Dot
-                };
+            {
+                Position = AxisPosition.Left,
+                AxisTitleDistance = 10,
+                Title = "Execution Time in milliseconds",
+                MajorGridlineStyle = LineStyle.Solid,
+                MinorGridlineStyle = LineStyle.Dot
+            };
 
             sizeAxis.AbsoluteMinimum = 0;
             valueAxis.AbsoluteMinimum = 0;
@@ -76,10 +71,22 @@ namespace C5.Performance.Wpf
         }
 
         /// <summary>
+        /// Export the plot as a pdf file
+        /// </summary>
+        /// <param name="path">The file path where the pdf should be created</param>
+        /// <param name="width">Width in pixels of the generated pfd</param>
+        /// <param name="height">Height in pixels of the generated pfd</param>
+        public void ExportPdf(String path, double width, double height)
+        {
+            PdfExporter.Export(PlotModel, new StreamWriter(path).BaseStream, width, height);
+        }
+
+        /// <summary>
         /// Add a benchmark data point to the graph being drawn
         /// </summary>
         /// <param name="indexOfAreaSeries">Index of the graph you wish to add data to</param>
         /// <param name="benchmark">Benchmark containing the data to be added</param>
+        /// <param name="serialize"></param>
         public void AddDataPoint(int indexOfAreaSeries, Benchmark benchmark, bool serialize)
         {
             if (serialize)
@@ -95,18 +102,25 @@ namespace C5.Performance.Wpf
             PlotModel.RefreshPlot(true);
         }
 
-        private int benchmarkCounter;
-        readonly XmlSerializer x = new XmlSerializer(typeof(Benchmark));
-        private static string path = "benchmarks/benchmark";
-        private void writeBenchmarkToDisk(Benchmark benchmark)
+        /// <summary>
+        /// Add a plot to the graph showing the benchmark you are running
+        /// </summary>
+        /// <param name="name">Name of the benchmark you wish to plot</param>
+        public void AddAreaSeries(String name)
         {
-            x.Serialize(File.CreateText(path + (benchmarkCounter++) + ".xml"), benchmark);
+            PlotModel.Series.Add(
+                new AreaSeries
+                {
+                    StrokeThickness = 2,
+                    MarkerSize = 3,
+                    MarkerStroke = OxyColors.Black,
+                    MarkerType = MarkerType.Circle,
+                    Title = name
+                }
+            );
         }
 
-        public Benchmark ReadBenchmarkFromDisk(int number)
-        {
-            return (Benchmark) x.Deserialize(File.OpenText(path + number + ".xml"));
-        }
+        #region Serializer
 
         public void WriteDataToDisk(int indexOfAreaSeries, Benchmark benchmark)
         {
@@ -121,21 +135,16 @@ namespace C5.Performance.Wpf
             }
         }
 
-        /// <summary>
-        /// Add a plot to the graph showing the benchmark you are running
-        /// </summary>
-        /// <param name="name">Name of the benchmark you wish to plot</param>
-        public void AddAreaSeries(String name)
+        private void writeBenchmarkToDisk(Benchmark benchmark)
         {
-            var areaSerie = new AreaSeries
-            {
-                StrokeThickness = 2,
-                MarkerSize = 3,
-                MarkerStroke = OxyColors.Black,
-                MarkerType = MarkerType.Circle,
-                Title = name
-            };
-            PlotModel.Series.Add(areaSerie);
+            _serializer.Serialize(File.CreateText(Path + (_benchmarkCounter++) + ".xml"), benchmark);
         }
+
+        public Benchmark ReadBenchmarkFromDisk(int number)
+        {
+            return (Benchmark) _serializer.Deserialize(File.OpenText(Path + number + ".xml"));
+        }
+
+        #endregion
     }
 }

@@ -269,7 +269,7 @@ namespace C5.Performance.Wpf
         public Benchmarker()
         {
             MaxIterations = Convert.ToInt32(Math.Round(Math.Log(MaxCollectionSize)));
-            _plotter = Plotter.CreatePlotter();
+            _plotter = new Plotter();
             DataContext = _plotter;
             Console.Out.WriteLine();
         }
