@@ -63,9 +63,17 @@ namespace C5.Performance.Wpf.Benchmarks
 
             var meanTime = elapsedTime / repeats;
 
-            var standardDeviation = Math.Sqrt(elapsedSquaredTime / repeats - meanTime * meanTime) / meanTime * 100;
             caller.UpdateRunningLabel("");
-            return new Benchmark(BenchMarkName(), CollectionSize, meanTime, standardDeviation, count);
+
+            return new Benchmark
+                {
+                    BenchmarkName = BenchMarkName(),
+                    CollectionSize = CollectionSize,
+                    MeanTime = meanTime,
+                    StandardDeviation = Math.Sqrt(elapsedSquaredTime / repeats - meanTime * meanTime) / meanTime * 100,
+                    NumberOfRuns = count,
+                    Dummy = dummy
+                };
         }
     }
 }
