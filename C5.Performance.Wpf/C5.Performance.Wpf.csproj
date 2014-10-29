@@ -151,8 +151,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Benchmarks\Benchmark.cs" />
-    <Compile Include="Benchmarks\Benchmarkable.cs" />
+    <Compile Include="Core\Benchmark.cs" />
+    <Compile Include="Core\Benchmarkable.cs" />
     <Compile Include="Benchmarks\Benchmarker.cs" />
     <Compile Include="Benchmarks\Benchmarks.cs" />
     <Compile Include="Benchmarks\Sorting - Copy.cs" />
@@ -188,7 +188,7 @@
     <Compile Include="Benchmarks\DynamicTreeRandomRemoveBenchmarker.cs" />
     <Compile Include="Benchmarks\DITTrainSearchBenchmark.cs" />
     <Compile Include="Report Benchmarks\IntervalBenchmarkable.cs" />
-    <Compile Include="Timer.cs" />
+    <Compile Include="Core\Timer.cs" />
     <Page Include="Benchmarker.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -206,7 +206,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Plotter.cs" />
+    <Compile Include="Core\Plotter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
