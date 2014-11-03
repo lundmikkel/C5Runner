@@ -152,13 +152,13 @@ namespace C5.Intervals.Performance
                     length => Contract.Result<IEnumerable<IInterval<int>>>().Count(x => x.High - x.Low == length) == count / 5
                 )
             );
+            Contract.Ensures(Contract.Result<IEnumerable<IInterval<int>>>().Count() == count);
 
-            count /= 5;
             var random = new Random();
             int low;
 
             for (var length = 1; length <= 10000; length *= 10)
-                for (var i = 0; i < count; ++i)
+                for (var i = 0; i < count / 5; ++i)
                     yield return new IntervalBase<int>(low = random.Next(0, highestLow), low + length);
         }
     }
