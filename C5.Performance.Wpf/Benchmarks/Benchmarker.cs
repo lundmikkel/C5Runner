@@ -200,11 +200,12 @@ namespace C5.Intervals.Tests
     {
         static readonly Random Random = new Random();
 
-        public static void Shuffle<T>(this T[] list)
+        public static T[] Shuffle<T>(this T[] list)
         {
             var n = list.Length;
             while (--n > 0)
                 list.Swap(Random.Next(n + 1), n);
+            return list;
         }
 
         public static void Swap<T>(this T[] list, int i, int j)
