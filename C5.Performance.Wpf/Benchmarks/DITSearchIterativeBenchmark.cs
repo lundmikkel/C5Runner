@@ -8,20 +8,20 @@ namespace C5.Performance.Wpf.Benchmarks
     {
         private IInterval<int>[] _intervals;
         private IInterval<int>[] _intervalsNot;
-        private DynamicIntervalTree<IInterval<int>, int> _intervalCollection; 
+        private DynamicIntervalTree<IInterval<int>, int> _intervalCollection;
 
         private int intervalSearch(int intervalId)
         {
             return -1;
-//            if (intervalId < CollectionSize)
-//                return _intervalCollection.FindOverlapsIterative(_intervals[intervalId]).Count() > 0 ? 1 : 0;
-//            return _intervalCollection.FindOverlapsIterative(_intervalsNot[intervalId - CollectionSize]).Count() > 0 ? 1 : 0;
+            //            if (intervalId < collectionSize)
+            //                return _intervalCollection.FindOverlapsIterative(_intervals[intervalId]).Count() > 0 ? 1 : 0;
+            //            return _intervalCollection.FindOverlapsIterative(_intervalsNot[intervalId - collectionSize]).Count() > 0 ? 1 : 0;
         }
 
-        public override void CollectionSetup()
+        public override void CollectionSetup(int collectionSize)
         {
-            _intervals = BenchmarkTestCases.DataSetA(CollectionSize);
-            _intervalsNot = BenchmarkTestCases.DataSetNotA(CollectionSize);
+            _intervals = BenchmarkTestCases.DataSetA(collectionSize);
+            _intervalsNot = BenchmarkTestCases.DataSetNotA(collectionSize);
             _intervalCollection = new DynamicIntervalTree<IInterval<int>, int>(_intervals);
 
             /*
@@ -29,14 +29,10 @@ namespace C5.Performance.Wpf.Benchmarks
              * Fill in random numbers from 0 to the number of trains plus the number of trains not in the collection.
              * This should make roughly half the searched succesful if we find enough space to generate as many trains not in the collection as there is trains already.
              */
-            ItemsArray = SearchAndSort.FillIntArrayRandomly(CollectionSize, 0, CollectionSize * 2);
+            ItemsArray = SearchAndSort.FillIntArrayRandomly(collectionSize, 0, collectionSize * 2);
         }
 
-        public override void Setup()
-        {
-        }
-
-        public override double Call(int i)
+        public override double Call(int i, int collectionSize)
         {
             return intervalSearch(i);
         }

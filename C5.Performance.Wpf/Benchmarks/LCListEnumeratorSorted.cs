@@ -12,16 +12,12 @@ namespace C5.Performance.Wpf.Benchmarks
             return "LCList Enumerable Sorted";
         }
 
-        public override void CollectionSetup()
+        public override void CollectionSetup(int collectionSize)
         {
-            _lclist = new LayeredContainmentList<IInterval<int>, int>(BenchmarkTestCases.DataSetA(CollectionSize));
+            _lclist = new LayeredContainmentList<IInterval<int>, int>(BenchmarkTestCases.DataSetA(collectionSize));
         }
 
-        public override void Setup()
-        {
-        }
-
-        public override double Call(int i)
+        public override double Call(int i, int collectionSize)
         {
             var sum = 0.0;
             foreach (var interval in _lclist.Sorted)

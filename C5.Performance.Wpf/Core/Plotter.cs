@@ -67,7 +67,7 @@ namespace C5.Performance.Wpf
         {
             PlotModel.Axes.Clear();
             setUpModel(logarithmicXAxis);
-            PlotModel.RefreshPlot(true);
+            PlotModel.InvalidatePlot(true);
         }
 
         /// <summary>
@@ -94,12 +94,12 @@ namespace C5.Performance.Wpf
             var areaSeries = PlotModel.Series[indexOfAreaSeries] as AreaSeries;
             if (areaSeries != null)
             {
-                areaSeries.Points.Add(new DataPoint(benchmark.CollectionSize,
-                    (benchmark.MeanTime + benchmark.StandardDeviation)));
-                areaSeries.Points2.Add(new DataPoint(benchmark.CollectionSize,
-                    (benchmark.MeanTime - benchmark.StandardDeviation)));
+                Console.WriteLine(@"Mean: {0} std.dev.: {1}", benchmark.MeanTime, benchmark.StandardDeviation);
+                areaSeries.Points.Add(new DataPoint(benchmark.CollectionSize, (benchmark.MeanTime + benchmark.StandardDeviation)));
+                areaSeries.Points2.Add(new DataPoint(benchmark.CollectionSize, (benchmark.MeanTime - benchmark.StandardDeviation)));
             }
-            PlotModel.RefreshPlot(true);
+
+            PlotModel.InvalidatePlot(true);
         }
 
         /// <summary>

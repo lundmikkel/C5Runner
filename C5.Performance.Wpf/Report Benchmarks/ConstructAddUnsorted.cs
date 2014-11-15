@@ -11,21 +11,21 @@ namespace C5.Performance.Wpf.Report_Benchmarks
             : base(intervalConstruction, intervalCollectionConstruction)
         { }
 
-        public override void CollectionSetup()
+        public override void CollectionSetup(int collectionSize)
         {
-            Intervals = IntervalConstruction(CollectionSize);
+            Intervals = IntervalConstruction(collectionSize);
             Intervals.Shuffle();
             IntervalCollection = IntervalCollectionConstruction(EmptyIntervals);
-            ItemsArray = SearchAndSort.FillIntArray(CollectionSize);
+            ItemsArray = SearchAndSort.FillIntArray(collectionSize);
         }
 
-        public override void Setup()
+        public override void Setup(int collectionSize)
         {
             Intervals.Shuffle();
             IntervalCollection.Clear();
         }
 
-        public override double Call(int i)
+        public override double Call(int i, int collectionSize)
         {
             foreach (var interval in Intervals)
                 IntervalCollection.Add(interval);

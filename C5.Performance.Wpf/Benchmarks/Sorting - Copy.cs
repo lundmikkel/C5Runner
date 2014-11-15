@@ -17,18 +17,18 @@ namespace C5.Performance.Wpf.Benchmarks
             _methodName = methodName;
         }
 
-        public override void CollectionSetup()
+        public override void CollectionSetup(int collectionSize)
         {
-            numbers = new DateTime[CollectionSize];
-            for (var i = 0; i < CollectionSize; i++)
+            numbers = new DateTime[collectionSize];
+            for (var i = 0; i < collectionSize; i++)
                 numbers[i] = DateTime.Now + new TimeSpan(i, 0, 0);
 
-            ItemsArray = SearchAndSort.FillIntArray(CollectionSize);
+            ItemsArray = SearchAndSort.FillIntArray(collectionSize);
 
             GC.Collect();
         }
 
-        public override double Call(int i)
+        public override double Call(int i, int collectionSize)
         {
             _sortingMethod(numbers);
             return 1;
@@ -47,7 +47,7 @@ namespace C5.Performance.Wpf.Benchmarks
             return "DateTimeSorting Random - " + _methodName;
         }
 
-        public override void Setup()
+        public override void Setup(int collectionSize)
         {
             numbers.Shuffle();
         }
@@ -64,10 +64,6 @@ namespace C5.Performance.Wpf.Benchmarks
         {
             return "DateTimeSorting Sorted - " + _methodName;
         }
-
-        public override void Setup()
-        {
-        }
     }
 
     class DateTimeSortingReverseSorted : DateTimeSorting
@@ -82,7 +78,7 @@ namespace C5.Performance.Wpf.Benchmarks
             return "DateTimeSorting Reverse Sorted - " + _methodName;
         }
 
-        public override void Setup()
+        public override void Setup(int collectionSize)
         {
             Array.Reverse(numbers);
         }

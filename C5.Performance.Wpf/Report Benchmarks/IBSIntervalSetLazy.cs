@@ -7,7 +7,7 @@ namespace C5.Performance.Wpf.Report_Benchmarks
     public class IBSIntervalSetLazy : Benchmarkable
     {
         private IInterval<int>[] _intervals;
-        private IntervalBinarySearchTree<IInterval<int>, int> _intervalCollection; 
+        private IntervalBinarySearchTree<IInterval<int>, int> _intervalCollection;
 
         private int intervalSearch(int intervalId)
         {
@@ -15,9 +15,9 @@ namespace C5.Performance.Wpf.Report_Benchmarks
             return 1;
         }
 
-        public override void CollectionSetup()
+        public override void CollectionSetup(int collectionSize)
         {
-            _intervals = BenchmarkTestCases.DataSetB(CollectionSize);
+            _intervals = BenchmarkTestCases.DataSetB(collectionSize);
             _intervalCollection.AddAll(_intervals);
             _intervalCollection = new IntervalBinarySearchTree<IInterval<int>, int>(_intervals);
 
@@ -26,14 +26,10 @@ namespace C5.Performance.Wpf.Report_Benchmarks
              * Fill in random numbers from 0 to the number of trains plus the number of trains not in the collection.
              * This should make roughly half the searched succesful if we find enough space to generate as many trains not in the collection as there is trains already.
              */
-            ItemsArray = SearchAndSort.FillIntArrayRandomly(CollectionSize, 0, CollectionSize * 2);
+            ItemsArray = SearchAndSort.FillIntArrayRandomly(collectionSize, 0, collectionSize * 2);
         }
 
-        public override void Setup()
-        {
-        }
-
-        public override double Call(int i)
+        public override double Call(int i, int collectionSize)
         {
             return intervalSearch(i);
         }

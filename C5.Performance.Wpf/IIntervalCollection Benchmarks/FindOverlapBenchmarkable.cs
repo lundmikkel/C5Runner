@@ -16,15 +16,13 @@ namespace C5.Performance.Wpf.IIntervalCollection_Benchmarks
         {
         }
 
-        public override void CollectionSetup()
+        public override void CollectionSetup(int collectionSize)
         {
-            Intervals = IntervalConstruction(CollectionSize);
+            Intervals = IntervalConstruction(collectionSize);
             IntervalCollection = IntervalCollectionConstruction(Intervals);
-            ItemsArray = SearchAndSort.FillIntArray(CollectionSize);
-            QueryInterval = new IntervalBase<int>(CollectionSize * 1 / 5, CollectionSize * 2 / 8);
+            ItemsArray = SearchAndSort.FillIntArray(collectionSize);
+            QueryInterval = new IntervalBase<int>(collectionSize * 1 / 5, collectionSize * 2 / 8);
         }
-
-        public override void Setup() { }
     }
 
     class FindOverlapBenchmarkable_FindOverlapRange : FindOverlapBenchmarkable
@@ -34,7 +32,7 @@ namespace C5.Performance.Wpf.IIntervalCollection_Benchmarks
         {
         }
 
-        public override double Call(int i)
+        public override double Call(int i, int collectionSize)
         {
             IInterval<int> overlap;
             IntervalCollection.FindOverlap(QueryInterval, out overlap);
@@ -49,7 +47,7 @@ namespace C5.Performance.Wpf.IIntervalCollection_Benchmarks
         {
         }
 
-        public override double Call(int i)
+        public override double Call(int i, int collectionSize)
         {
             IInterval<int> overlap;
             IntervalCollection.FindOverlap(QueryInterval.High, out overlap);

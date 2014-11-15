@@ -7,20 +7,20 @@ namespace C5.Performance.Wpf.Benchmarks
         private IntervalBinarySearchTreeOld<IInterval<int>, int> _collection;
         private IInterval<int>[] _intervals;
 
-        public override void CollectionSetup()
+        public override void CollectionSetup(int collectionSize)
         {
-            _intervals = Intervals.Tests.BenchmarkTestCases.DataSetAOpen(CollectionSize);
+            _intervals = Intervals.Tests.BenchmarkTestCases.DataSetAOpen(collectionSize);
             _collection = new IntervalBinarySearchTreeOld<IInterval<int>, int>();
-            ItemsArray = SearchAndSort.FillIntArray(CollectionSize);
+            ItemsArray = SearchAndSort.FillIntArray(collectionSize);
             SearchAndSort.Shuffle(ItemsArray);
         }
 
-        public override void Setup()
+        public override void Setup(int collectionSize)
         {
             _collection.Clear();
         }
 
-        public override double Call(int i)
+        public override double Call(int i, int collectionSize)
         {
             foreach (var interval in _intervals)
                 _collection.Add(interval);

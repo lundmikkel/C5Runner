@@ -12,19 +12,15 @@ namespace C5.Performance.Wpf
     public partial class Benchmarker
     {
         #region Fields
-        // Parameters for running the benchmarks
-        private const int MinCollectionSize = 100;
-        private const int MaxCollectionSize = 1000001;
-        private const int CollectionMultiplier = 10;
         private const int StandardRepeats = 10;
+        private int _repeats = 1;
+        // Parameters for running the benchmarks
         private const double MaxExecutionTimeInSeconds = 0.25;
         private readonly Plotter _plotter;
-        internal int MaxIterations;
         // Every time we benchmark we count this up in order to get a new color for every benchmark
         private int _lineSeriesIndex;
         private const int OriginalMax = Int32.MaxValue / 10;
         private static int _maxCount = OriginalMax;
-        private int _repeats = 1;
         private bool _runSequential;
         private bool _runWarmups;
 
@@ -35,7 +31,6 @@ namespace C5.Performance.Wpf
         #region Constructor
         public Benchmarker()
         {
-            MaxIterations = Convert.ToInt32(Math.Round(Math.Log(MaxCollectionSize)));
             _plotter = new Plotter();
             DataContext = _plotter;
             Console.Out.WriteLine();
@@ -72,14 +67,11 @@ namespace C5.Performance.Wpf
             foreach (var b in benchmarks)
             {
                 _plotter.AddAreaSeries(b.BenchMarkName());
-                for (b.CollectionSize = MinCollectionSize;
-                    b.CollectionSize < MaxCollectionSize;
-                    b.CollectionSize *= CollectionMultiplier)
+                foreach (var collectionSize in b.CollectionSizes())
                 {
-                    updateStatusLabel("Running " + b.BenchMarkName() + " with collection size " + b.CollectionSize);
-                    var benchmark = b.Benchmark(_maxCount, _repeats, MaxExecutionTimeInSeconds, this, _runWarmups);
-                    Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() =>
-                        _plotter.AddDataPoint(_lineSeriesIndex, benchmark, SerializeToDisk)));
+                    updateStatusLabel("Running " + b.BenchMarkName() + " with collection size " + collectionSize);
+                    var benchmark = b.Benchmark(_maxCount, _repeats, collectionSize, MaxExecutionTimeInSeconds, updateStatusLabel, _runWarmups);
+                    Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() => _plotter.AddDataPoint(_lineSeriesIndex, benchmark, SerializeToDisk)));
                     Thread.Sleep(100);
                     updateProgressBar(benchmarks.Length);
                 }
@@ -99,14 +91,11 @@ namespace C5.Performance.Wpf
             foreach (var b in benchmarks)
             {
                 _plotter.AddAreaSeries(b.BenchMarkName());
-                for (b.CollectionSize = MinCollectionSize;
-                    b.CollectionSize < MaxCollectionSize;
-                    b.CollectionSize *= CollectionMultiplier)
+                foreach (var collectionSize in b.CollectionSizes())
                 {
-                    updateStatusLabel("Running " + b.BenchMarkName() + " with collection size " + b.CollectionSize);
+                    updateStatusLabel("Running " + b.BenchMarkName() + " with collection size " + collectionSize);
                     var benchmark = _plotter.ReadBenchmarkFromDisk(benchmarkCounter++);
-                    Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() =>
-                        _plotter.AddDataPoint(_lineSeriesIndex, benchmark, false)));
+                    Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() => _plotter.AddDataPoint(_lineSeriesIndex, benchmark, false)));
                     Thread.Sleep(100);
                     updateProgressBar(benchmarks.Length);
                 }
@@ -121,22 +110,20 @@ namespace C5.Performance.Wpf
         {
             foreach (var benchmarkable in benchmarks)
                 _plotter.AddAreaSeries(benchmarkable.BenchMarkName());
-            var collectionSize = MinCollectionSize;
-            while (collectionSize < MaxCollectionSize)
+
+            foreach (var collectionSize in benchmarks.First().CollectionSizes())
             {
                 _lineSeriesIndex = 0;
                 foreach (var b in benchmarks)
                 {
-                    b.CollectionSize = collectionSize;
                     updateStatusLabel("Running " + b.BenchMarkName() + " with collection size " + collectionSize);
-                    var benchmark = b.Benchmark(_maxCount, _repeats, MaxExecutionTimeInSeconds, this, _runWarmups);
+                    var benchmark = b.Benchmark(_maxCount, _repeats, collectionSize, MaxExecutionTimeInSeconds, updateStatusLabel, _runWarmups);
                     Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() =>
                         _plotter.AddDataPoint(_lineSeriesIndex, benchmark, false)));
                     Thread.Sleep(100);
                     _lineSeriesIndex++;
                     updateProgressBar(benchmarks.Length);
                 }
-                collectionSize *= CollectionMultiplier;
             }
             UpdateRunningLabel();
             updateStatusLabel("Finished");
@@ -149,7 +136,7 @@ namespace C5.Performance.Wpf
         {
             var dlg = new SaveFileDialog
             {
-                FileName = Benchmarks.First().BenchMarkName(),
+                FileName = Benchmarks.First().BenchMarkName() + " " + DateTime.Now.Ticks,
                 DefaultExt = ".pdf",
                 Filter = "PDF documents (.pdf)|*.pdf"
             };
@@ -170,7 +157,7 @@ namespace C5.Performance.Wpf
         {
             Dispatcher.Invoke(
                 DispatcherPriority.Normal,
-                new Action(() => progress.Value += (100.0 / MaxIterations) / numberOfBenchmarks)
+                new Action(() => progress.Value += (100.0 / 100) / numberOfBenchmarks)
             );
         }
 

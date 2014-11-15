@@ -7,20 +7,20 @@ namespace C5.Performance.Wpf.Benchmarks
         private IntervalBinarySearchTree<IInterval<int>, int> _collection;
         private IInterval<int>[] _intervals;
 
-        public override void CollectionSetup()
+        public override void CollectionSetup(int collectionSize)
         {
-            _intervals = Intervals.Tests.BenchmarkTestCases.DataSetA(CollectionSize);
+            _intervals = Intervals.Tests.BenchmarkTestCases.DataSetA(collectionSize);
             _collection = new IntervalBinarySearchTree<IInterval<int>, int>();
-            ItemsArray = SearchAndSort.FillIntArray(CollectionSize);
+            ItemsArray = SearchAndSort.FillIntArray(collectionSize);
             SearchAndSort.Shuffle(ItemsArray);
         }
 
-        public override void Setup()
+        public override void Setup(int collectionSize)
         {
             _collection.Clear();
         }
 
-        public override double Call(int i)
+        public override double Call(int i, int collectionSize)
         {
             foreach (var interval in _intervals)
                 _collection.Add(interval);
@@ -38,18 +38,14 @@ namespace C5.Performance.Wpf.Benchmarks
         private IntervalBinarySearchTree<IInterval<int>, int> _collection;
         private IInterval<int>[] _intervals;
 
-        public override void CollectionSetup()
+        public override void CollectionSetup(int collectionSize)
         {
-            _intervals = Intervals.Tests.BenchmarkTestCases.DataSetA(CollectionSize);
-            ItemsArray = SearchAndSort.FillIntArray(CollectionSize);
+            _intervals = Intervals.Tests.BenchmarkTestCases.DataSetA(collectionSize);
+            ItemsArray = SearchAndSort.FillIntArray(collectionSize);
             SearchAndSort.Shuffle(ItemsArray);
         }
 
-        public override void Setup()
-        {
-        }
-
-        public override double Call(int i)
+        public override double Call(int i, int collectionSize)
         {
             _collection = new IntervalBinarySearchTree<IInterval<int>, int>(_intervals);
             return _collection.Count;

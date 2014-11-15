@@ -11,19 +11,19 @@ namespace C5.Performance.Wpf.Benchmarks
         private DynamicIntervalTree<Trains.TrainRide, double> _intervalTrains;
 
 
-        private int trainSearch(int trainId)
+        private int trainSearch(int trainId, int collectionSize)
         {
             // If the id is in range of the original trains search for a train we know is there
-            if (trainId < CollectionSize)
+            if (trainId < collectionSize)
                 return _intervalTrains.FindOverlaps(_trains[trainId]).Count() > 0 ? 1 : 0;
             // If the is is out of range search for a train we know is not in the collection.
-            return _intervalTrains.FindOverlaps(_trainsNotInCollection[(trainId - CollectionSize)]).Count() > 0 ? 1 : 0;
+            return _intervalTrains.FindOverlaps(_trainsNotInCollection[(trainId - collectionSize)]).Count() > 0 ? 1 : 0;
         }
 
-        public override void CollectionSetup()
+        public override void CollectionSetup(int collectionSize)
         {
             // Get the number of trains from the csv file matching the collectionsize
-            _trains = TrainUtilities.GetTrains(CollectionSize);
+            _trains = TrainUtilities.GetTrains(collectionSize);
 
             // Create collection of trains that is not in the collection to have unsuccesfull searches
             _trainsNotInCollection = TrainUtilities.FindInbetweenTrains(_trains).ToArray();
@@ -36,17 +36,13 @@ namespace C5.Performance.Wpf.Benchmarks
              * Fill in random numbers from 0 to the number of trains plus the number of trains not in the collection.
              * This should make roughly half the searched succesful if we find enough space to generate as many trains not in the collection as there is trains already.
              */
-            ItemsArray = SearchAndSort.FillIntArrayRandomly(CollectionSize, 0,
-                CollectionSize + _trainsNotInCollection.Count());
+            ItemsArray = SearchAndSort.FillIntArrayRandomly(collectionSize, 0,
+                collectionSize + _trainsNotInCollection.Count());
         }
 
-        public override void Setup()
+        public override double Call(int i, int collectionSize)
         {
-        }
-
-        public override double Call(int i)
-        {
-            return trainSearch(i);
+            return trainSearch(i, collectionSize);
         }
 
         public override string BenchMarkName()

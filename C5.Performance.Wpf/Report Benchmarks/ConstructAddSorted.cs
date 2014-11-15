@@ -13,22 +13,22 @@ namespace C5.Performance.Wpf.Report_Benchmarks
         {
         }
 
-        public override void CollectionSetup()
+        public override void CollectionSetup(int collectionSize)
         {
-            Intervals = IntervalConstruction(CollectionSize);
+            Intervals = IntervalConstruction(collectionSize);
             IntervalCollection = IntervalCollectionConstruction(EmptyIntervals);
-            ItemsArray = SearchAndSort.FillIntArray(CollectionSize);
-            Order();
+            ItemsArray = SearchAndSort.FillIntArray(collectionSize);
+            Order(collectionSize);
         }
 
-        internal abstract void Order();
+        internal abstract void Order(int collectionSize);
 
-        public override void Setup()
+        public override void Setup(int collectionSize)
         {
             IntervalCollection.Clear();
         }
 
-        public override double Call(int i)
+        public override double Call(int i, int collectionSize)
         {
             foreach (var interval in Intervals)
                 IntervalCollection.Add(interval);
@@ -46,9 +46,9 @@ namespace C5.Performance.Wpf.Report_Benchmarks
         {
         }
 
-        internal override void Order()
+        internal override void Order(int collectionSize)
         {
-            C5.Sorting.IntroSort(Intervals, 0, CollectionSize, IntervalExtensions.CreateComparer<IInterval<int>, int>());
+            C5.Sorting.IntroSort(Intervals, 0, collectionSize, IntervalExtensions.CreateComparer<IInterval<int>, int>());
         }
     }
 
@@ -60,9 +60,9 @@ namespace C5.Performance.Wpf.Report_Benchmarks
         {
         }
 
-        internal override void Order()
+        internal override void Order(int collectionSize)
         {
-            C5.Sorting.IntroSort(Intervals, 0, CollectionSize, IntervalExtensions.CreateReversedComparer<IInterval<int>, int>());
+            C5.Sorting.IntroSort(Intervals, 0, collectionSize, IntervalExtensions.CreateReversedComparer<IInterval<int>, int>());
         }
     }
 
@@ -74,13 +74,13 @@ namespace C5.Performance.Wpf.Report_Benchmarks
         {
         }
 
-        public override void Setup()
+        public override void Setup(int collectionSize)
         {
-            base.Setup();
-            Order();
+            base.Setup(collectionSize);
+            Order(collectionSize);
         }
 
-        internal override void Order()
+        internal override void Order(int collectionSize)
         {
             Intervals.Shuffle();
         }

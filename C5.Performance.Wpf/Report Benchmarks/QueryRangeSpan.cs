@@ -12,17 +12,14 @@ namespace C5.Performance.Wpf.Report_Benchmarks
             : base(intervalConstruction, intervalCollectionConstruction)
         { }
 
-        public override void CollectionSetup()
+        public override void CollectionSetup(int collectionSize)
         {
-            Intervals = IntervalConstruction(CollectionSize);
+            Intervals = IntervalConstruction(collectionSize);
             IntervalCollection = IntervalCollectionConstruction(Intervals);
-            ItemsArray = SearchAndSort.FillIntArray(CollectionSize);
+            ItemsArray = SearchAndSort.FillIntArray(collectionSize);
         }
 
-        public override void Setup()
-        { }
-
-        public override double Call(int i)
+        public override double Call(int i, int collectionSize)
         {
             var success = IntervalCollection.FindOverlaps(IntervalCollection.Span);
             return success.Count();

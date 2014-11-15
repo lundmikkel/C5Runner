@@ -22,23 +22,19 @@ namespace C5.Performance.Wpf.Benchmarks
             return -1;
         }
 
-        public override void CollectionSetup()
+        public override void CollectionSetup(int collectionSize)
         {
-            // Setup an int array with sorted integers from 0 to CollectionSize
-            _intArray = SearchAndSort.FillIntArray(CollectionSize);
+            // Setup an int array with sorted integers from 0 to collectionSize
+            _intArray = SearchAndSort.FillIntArray(collectionSize);
 
             /*
              * Setup an items array with things to look for. Fill in random numbers from 0 to twice the value of the collection size.
              * This should make roughly half the searched succesful.
              */
-            ItemsArray = SearchAndSort.FillIntArrayRandomly(CollectionSize, 0, CollectionSize*2);
+            ItemsArray = SearchAndSort.FillIntArrayRandomly(collectionSize, 0, collectionSize * 2);
         }
 
-        public override void Setup()
-        {
-        }
-
-        public override double Call(int i)
+        public override double Call(int i, int collectionSize)
         {
             return BinarySearch(i, _intArray);
         }

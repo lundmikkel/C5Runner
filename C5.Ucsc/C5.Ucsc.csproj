@@ -43,7 +43,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="C5">
-      <HintPath>..\..\C5.Intervals\C5\bin\Release\C5.dll</HintPath>
+      <HintPath>..\..\C5.Intervals\C5.Intervals\bin\Release\C5.dll</HintPath>
     </Reference>
     <Reference Include="C5.Intervals">
       <HintPath>..\..\C5.Intervals\C5.Intervals\bin\Release\C5.Intervals.dll</HintPath>

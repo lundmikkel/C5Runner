@@ -12,17 +12,15 @@ namespace C5.Performance.Wpf.Benchmarks
             return "binary_search_success";
         }
 
-        public override void CollectionSetup()
+        public override void CollectionSetup(int collectionSize)
         {
-            intArray = SearchAndSort.FillIntArray(CollectionSize); // sorted [0,1,...]
-            items = SearchAndSort.FillIntArray(CollectionSize);
-            n = CollectionSize;
+            intArray = SearchAndSort.FillIntArray(collectionSize); // sorted [0,1,...]
+            items = SearchAndSort.FillIntArray(collectionSize);
+            n = collectionSize;
             SearchAndSort.Shuffle(items);
         }
 
-        public override void Setup(){}
-
-        public override double Call(int i)
+        public override double Call(int i, int collectionSize)
         {
             var successItem = items[i%n];
             return SearchAndSort.BinarySearch(successItem, intArray);

@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using C5.Intervals;
 using C5.Performance.Wpf.Benchmarks;
 using C5.Performance.Wpf.Report_Benchmarks;
@@ -16,15 +13,13 @@ namespace C5.Performance.Wpf.IIntervalCollection_Benchmarks
         {
         }
 
-        public override void CollectionSetup()
+        public override void CollectionSetup(int collectionSize)
         {
-            Intervals = IntervalConstruction(CollectionSize);
+            Intervals = IntervalConstruction(collectionSize);
             IntervalCollection = IntervalCollectionConstruction(Intervals);
-            ItemsArray = SearchAndSort.FillIntArray(CollectionSize);
-            QueryInterval = new IntervalBase<int>(CollectionSize * 1 / 5, CollectionSize * 3 / 5);
+            ItemsArray = SearchAndSort.FillIntArray(collectionSize);
+            QueryInterval = new IntervalBase<int>(collectionSize * 1 / 5, collectionSize * 3 / 5);
         }
-
-        public override void Setup() { }
     }
 
     class CountOverlapsBenchmarkable_CountOverlapsRange : CountOverlapsBenchmarkable
@@ -34,7 +29,7 @@ namespace C5.Performance.Wpf.IIntervalCollection_Benchmarks
         {
         }
 
-        public override double Call(int i)
+        public override double Call(int i, int collectionSize)
         {
             return IntervalCollection.CountOverlaps(QueryInterval);
         }
@@ -47,7 +42,7 @@ namespace C5.Performance.Wpf.IIntervalCollection_Benchmarks
         {
         }
 
-        public override double Call(int i)
+        public override double Call(int i, int collectionSize)
         {
             return IntervalCollection.CountOverlaps(QueryInterval.Low) + IntervalCollection.CountOverlaps(QueryInterval.High);
         }

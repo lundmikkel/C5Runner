@@ -10,19 +10,17 @@ namespace C5.Performance.Wpf.Benchmarks
         private IList<IInterval<int>> _intervals;
         private readonly Random _random = new Random(0);
 
-        public override void CollectionSetup()
+        public override void CollectionSetup(int collectionSize)
         {
             _collection = new DynamicIntervalTree<IInterval<int>, int>();
-            _intervals = new ArrayList<IInterval<int>>(CollectionSize);
-            _intervals.AddAll(BenchmarkTestCases.DataSetB(CollectionSize));
+            _intervals = new ArrayList<IInterval<int>>(collectionSize);
+            _intervals.AddAll(BenchmarkTestCases.DataSetB(collectionSize));
             _intervals.Shuffle(_random);
-            ItemsArray = SearchAndSort.FillIntArray(CollectionSize);
+            ItemsArray = SearchAndSort.FillIntArray(collectionSize);
             SearchAndSort.Shuffle(ItemsArray);
         }
-
-        public override void Setup() { }
-
-        public override double Call(int i)
+        
+        public override double Call(int i, int collectionSize)
         {
             foreach (var interval in _intervals)
                 _collection.Add(interval);

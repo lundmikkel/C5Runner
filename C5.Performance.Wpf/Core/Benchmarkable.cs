@@ -1,25 +1,38 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace C5.Performance.Wpf.Benchmarks
 {
     public abstract class Benchmarkable
     {
-        public int CollectionSize;
         internal int[] ItemsArray;
 
         public abstract String BenchMarkName();
 
-        // Prepare the collections used for the benchmark
-        public abstract void CollectionSetup();
+        /// <summary>
+        /// Prepare the collections used for the benchmark
+        /// </summary>
+        public virtual void CollectionSetup(int collectionSize) { }
 
-        // Do some setup before each benchmark run
-        public abstract void Setup();
+        /// <summary>
+        /// Do some setup before each benchmark run
+        /// </summary>
+        public virtual void Setup(int collectionSize) { }
 
-        public abstract double Call(int i);
+        public abstract double Call(int i, int collectionSize);
 
-        public Benchmark Benchmark(int maxCount, int repeats, double maxExecutionTimeInSeconds, Benchmarker caller, bool runWarmup = true)
+        public virtual IEnumerable<int> CollectionSizes()
         {
-            CollectionSetup();
+            var size = 100;
+            yield return size;
+
+            while (size < Int32.MaxValue / 2)
+                yield return size *= 2;
+        }
+
+        public Benchmark Benchmark(int maxCount, int runCount, int collectionSize, double maxExecutionTimeInSeconds, Action<string> updateLabel, bool runWarmup = true)
+        {
+            CollectionSetup(collectionSize);
 
             var count = 1;
             double dummy = 0.0,
@@ -27,50 +40,60 @@ namespace C5.Performance.Wpf.Benchmarks
                 elapsedTime,
                 elapsedSquaredTime;
 
-            var times = new ArrayList<double>();
 
             // Warm up JIT
             if (runWarmup)
-                dummy += Call(CollectionSize);
+            {
+                updateLabel("Runs warmup");
+                dummy += Call(collectionSize, collectionSize);
+                updateLabel(string.Empty);
 
-            dummy = 0.0;
+                // Ensure the warmup isn't optimized away
+                if ((long) dummy == DateTime.Now.Ticks)
+                    Console.Write(@" ");
+
+                // Reset dummy
+                dummy = 0.0;
+            }
+
+
             do
             {
                 // Step up the count by a factor
-                count *= 10;
+                count *= 2;
                 elapsedTime = elapsedSquaredTime = 0.0;
-                for (var j = 0; j < repeats; j++)
+                for (var run = 1; run <= runCount; ++run)
                 {
-                    caller.UpdateRunningLabel(String.Format("Benchmarking {0} calls {1} of {2} times", count, (j + 1), repeats));
+                    updateLabel(String.Format("Benchmarking {0} calls {1} of {2} times", count, run, runCount));
 
                     var timer = new Timer();
-                    for (var i = 0; i < count; ++i)
+                    for (var iteration = 0; iteration < count; ++iteration)
                     {
-                        Setup();
+                        Setup(collectionSize);
                         //GC.Collect();
 
                         timer.Play();
-                        dummy += Call(ItemsArray[i % CollectionSize]);
+                        dummy += Call(ItemsArray[iteration % collectionSize], collectionSize);
                         timer.Pause();
                     }
                     runningTimeInMilliSeconds = timer.Check();
                     var time = runningTimeInMilliSeconds / count;
-                    times.Add(time);
                     elapsedTime += time;
                     elapsedSquaredTime += time * time;
                 }
             } while (runningTimeInMilliSeconds < maxExecutionTimeInSeconds * 1000 && count < maxCount);
 
-            var meanTime = elapsedTime / repeats;
+            var meanTime = elapsedTime / runCount;
+            var standardDeviation = Math.Sqrt(elapsedSquaredTime / runCount - meanTime * meanTime);
 
-            caller.UpdateRunningLabel();
+            updateLabel(string.Empty);
 
             return new Benchmark
                 {
                     BenchmarkName = BenchMarkName(),
-                    CollectionSize = CollectionSize,
+                    CollectionSize = collectionSize,
                     MeanTime = meanTime,
-                    StandardDeviation = Math.Sqrt(elapsedSquaredTime / repeats - meanTime * meanTime) / meanTime * 100,
+                    StandardDeviation = standardDeviation,
                     NumberOfRuns = count,
                     Dummy = dummy
                 };

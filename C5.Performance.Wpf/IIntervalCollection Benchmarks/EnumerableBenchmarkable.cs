@@ -15,14 +15,12 @@ namespace C5.Performance.Wpf.IIntervalCollection_Benchmarks
         {
         }
 
-        public override void CollectionSetup()
+        public override void CollectionSetup(int collectionSize)
         {
-            Intervals = IntervalConstruction(CollectionSize);
+            Intervals = IntervalConstruction(collectionSize);
             IntervalCollection = IntervalCollectionConstruction(Intervals);
-            ItemsArray = SearchAndSort.FillIntArray(CollectionSize);
+            ItemsArray = SearchAndSort.FillIntArray(collectionSize);
         }
-
-        public override void Setup() { }
     }
 
     class EnumerableBenchmarkable_GetEnumerator : EnumerableBenchmarkable
@@ -32,7 +30,7 @@ namespace C5.Performance.Wpf.IIntervalCollection_Benchmarks
         {
         }
 
-        public override double Call(int i)
+        public override double Call(int i, int collectionSize)
         {
             return IntervalCollection.Count(x => x != null);
         }
@@ -45,7 +43,7 @@ namespace C5.Performance.Wpf.IIntervalCollection_Benchmarks
         {
         }
 
-        public override double Call(int i)
+        public override double Call(int i, int collectionSize)
         {
             return IntervalCollection.Sorted.Count(x => x != null);
         }
