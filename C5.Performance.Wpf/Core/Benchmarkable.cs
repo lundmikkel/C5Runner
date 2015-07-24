@@ -32,7 +32,9 @@ namespace C5.Performance.Wpf.Benchmarks
 
         public Benchmark Benchmark(int maxCount, int runCount, int collectionSize, double maxExecutionTimeInSeconds, Action<string> updateLabel, bool runWarmup = true)
         {
+            Console.Write("Setting up collection... ");
             CollectionSetup(collectionSize);
+            Console.WriteLine("done.");
 
             var count = 1;
             double dummy = 0.0,

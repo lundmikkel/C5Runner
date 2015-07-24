@@ -27,9 +27,7 @@ namespace C5.Performance.Wpf.Benchmarks
         private static readonly IntervalCollectionConstructor IBS = IntervalBenchmarkable.IBS;
         private static readonly IntervalCollectionConstructor IBSOLD = IntervalBenchmarkable.IBSOLD;
         private static readonly IntervalCollectionConstructor LCList = IntervalBenchmarkable.LCList;
-        private static readonly IntervalCollectionConstructor LCListNew = IntervalBenchmarkable.LCListNew;
-        private static readonly IntervalCollectionConstructor LCListNewSplit = IntervalBenchmarkable.LCListNewSplit;
-        private static readonly IntervalCollectionConstructor LCListNewSplitGallop = IntervalBenchmarkable.LCListNewSplitGallop;
+        private static readonly IntervalCollectionConstructor LCListGallop = IntervalBenchmarkable.LCListGallop;
         private static readonly IntervalCollectionConstructor NCList = IntervalBenchmarkable.NCList;
         private static readonly IntervalCollectionConstructor NCList2 = IntervalBenchmarkable.NCList2;
         private static readonly IntervalCollectionConstructor NCListArticle = IntervalBenchmarkable.NCListArticle;
@@ -50,7 +48,6 @@ namespace C5.Performance.Wpf.Benchmarks
             return new Benchmarkable[]
             {
                 new QueryRange(A, LCList),
-                new QueryRange(A, LCListNew),
                 new QueryRange(A, NCList),
                 new QueryRange(A, NCListArticle),
             };
@@ -62,10 +59,8 @@ namespace C5.Performance.Wpf.Benchmarks
             {
                 new ContainmentList4a(NCList, "Nested Containment List"), 
                 new ContainmentList4a(NCListArticle, "Nested Containment List Article"), 
-                new ContainmentList4a(LCList, "Layered Containment List"), 
-                new ContainmentList4a(LCListNew, "Layered Containment List New"), 
-                new ContainmentList4a(LCListNewSplit, "Layered Containment List New Split"), 
-                new ContainmentList4a(LCListNewSplitGallop, "Layered Containment List New Split Gallop"),
+                new ContainmentList4a(LCList, "Layered Containment List"),
+                new ContainmentList4a(LCListGallop, "Layered Containment List Gallop"),
             };
         }
 
@@ -73,12 +68,11 @@ namespace C5.Performance.Wpf.Benchmarks
         {
             return new Benchmarkable[]
             {
-                //new ContainmentList4b(NCList, "Nested Containment List"),
+                new ContainmentList4b(NCList, "Nested Containment List"),
                 //new ContainmentList4b(NCListArticle, "Nested Containment List Article"),
                 new ContainmentList4b(LCList, "Layered Containment List"),
-                new ContainmentList4b(LCListNew, "Layered Containment List New"),
-                new ContainmentList4b(LCListNewSplit, "Layered Containment List New Split"),
-                new ContainmentList4b(LCListNewSplitGallop, "Layered Containment List New Split Gallop"),
+                //new ContainmentList4b(LCListGallop, "Layered Containment List Gallop"),
+                //new ContainmentList4b(BITS, "Binary Interval Search"), 
             };
         }
 
@@ -87,7 +81,7 @@ namespace C5.Performance.Wpf.Benchmarks
             get
             {
                 //return queryRange();
-                return containmentList4a();
+                //return containmentList4a();
                 return containmentList4b();
             }
         }

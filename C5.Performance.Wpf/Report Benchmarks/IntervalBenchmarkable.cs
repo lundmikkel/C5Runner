@@ -58,19 +58,9 @@ namespace C5.Performance.Wpf.Report_Benchmarks
             return new LayeredContainmentList<IInterval<int>, int>(intervals);
         }
 
-        public static IIntervalCollection<IInterval<int>, int> LCListNew(IInterval<int>[] intervals)
+        public static IIntervalCollection<IInterval<int>, int> LCListGallop(IInterval<int>[] intervals)
         {
-            return new LayeredContainmentListNew<IInterval<int>, int>(intervals);
-        }
-
-        public static IIntervalCollection<IInterval<int>, int> LCListNewSplit(IInterval<int>[] intervals)
-        {
-            return new LayeredContainmentListNewSplit<IInterval<int>, int>(intervals);
-        }
-
-        public static IIntervalCollection<IInterval<int>, int> LCListNewSplitGallop(IInterval<int>[] intervals)
-        {
-            return new LayeredContainmentListNewSplitGallop<IInterval<int>, int>(intervals);
+            return new LayeredContainmentListGallop<IInterval<int>, int>(intervals);
         }
 
         public static IIntervalCollection<IInterval<int>, int> NCList(IInterval<int>[] intervals)

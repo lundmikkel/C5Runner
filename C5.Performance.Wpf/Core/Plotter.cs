@@ -14,14 +14,15 @@ namespace C5.Performance.Wpf
         public PlotModel PlotModel { get; set; }
         private int _benchmarkCounter;
         readonly XmlSerializer _serializer = new XmlSerializer(typeof(Benchmark));
-        private const string Path = "benchmarks/benchmark";
+        private string directory;
 
         #endregion
 
         #region Constructors
 
-        public Plotter()
+        public Plotter(string directory)
         {
+            this.directory = directory;
             PlotModel = new PlotModel();
             setUpModel();
         }
@@ -87,10 +88,13 @@ namespace C5.Performance.Wpf
         /// <param name="indexOfAreaSeries">Index of the graph you wish to add data to</param>
         /// <param name="benchmark">Benchmark containing the data to be added</param>
         /// <param name="serialize"></param>
-        public void AddDataPoint(int indexOfAreaSeries, Benchmark benchmark, bool serialize)
+        /// <param name="writeToFile"></param>
+        public void AddDataPoint(int indexOfAreaSeries, Benchmark benchmark, bool serialize, bool writeToFile)
         {
             if (serialize)
-                writeBenchmarkToDisk(benchmark);
+                serializeBenchmark(benchmark);
+            if (writeToFile)
+                writeBenchmarkToFile(benchmark);
             var areaSeries = PlotModel.Series[indexOfAreaSeries] as AreaSeries;
             if (areaSeries != null)
             {
@@ -135,14 +139,26 @@ namespace C5.Performance.Wpf
             }
         }
 
-        private void writeBenchmarkToDisk(Benchmark benchmark)
+        private void serializeBenchmark(Benchmark benchmark)
         {
-            _serializer.Serialize(File.CreateText(Path + (_benchmarkCounter++) + ".xml"), benchmark);
+            _serializer.Serialize(File.CreateText(directory + "/benchmark_" + (_benchmarkCounter++) + ".xml"), benchmark);
+        }
+
+        private void writeBenchmarkToFile(Benchmark benchmark)
+        {
+            if (!File.Exists(directory))
+                Directory.CreateDirectory(directory);
+
+            var filename = benchmark.BenchmarkName.Replace(" ", String.Empty) + ".dat";
+            using (var w = File.AppendText(Path.Combine(directory, filename)))
+            {
+                w.WriteLine("{0}\t{1}\t{2}", benchmark.CollectionSize, benchmark.MeanTime, benchmark.StandardDeviation);
+            }
         }
 
         public Benchmark ReadBenchmarkFromDisk(int number)
         {
-            return (Benchmark) _serializer.Deserialize(File.OpenText(Path + number + ".xml"));
+            return (Benchmark) _serializer.Deserialize(File.OpenText(directory + number + ".xml"));
         }
 
         #endregion

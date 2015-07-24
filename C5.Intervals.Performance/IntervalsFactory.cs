@@ -140,7 +140,7 @@ namespace C5.Intervals.Performance
                 offset).Take(count);
         }
 
-        public static IEnumerable<IInterval<int>> ContainmentListIntervals(int count, int highestLow)
+        public static IEnumerable<IInterval<int>> ContainmentListIntervals(int count, int highestLow, int? seed = null)
         {
             Contract.Requires(0 <= count);
             Contract.Requires(count % 5 == 0);
@@ -154,7 +154,7 @@ namespace C5.Intervals.Performance
             );
             Contract.Ensures(Contract.Result<IEnumerable<IInterval<int>>>().Count() == count);
 
-            var random = new Random();
+            var random = seed == null ? new Random() : new Random(seed.Value);
             int low;
 
             for (var length = 1; length <= 10000; length *= 10)

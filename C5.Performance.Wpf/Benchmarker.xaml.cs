@@ -1,9 +1,11 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
 using C5.Performance.Wpf.Benchmarks;
+using C5.Performance.Wpf.Containment_List_Benchmarks;
 using Microsoft.Win32;
 
 namespace C5.Performance.Wpf
@@ -24,6 +26,10 @@ namespace C5.Performance.Wpf
         private bool _runSequential;
         private bool _runWarmups;
 
+        private string basepath = "benchmark";
+        private string testName;
+        private string directory;
+
         #endregion
 
         private static Benchmarkable[] Benchmarks { get; set; }
@@ -31,7 +37,9 @@ namespace C5.Performance.Wpf
         #region Constructor
         public Benchmarker()
         {
-            _plotter = new Plotter();
+            directory = Path.Combine(basepath, testName = DateTime.Now.Ticks.ToString());
+
+            _plotter = new Plotter(directory);
             DataContext = _plotter;
             Console.Out.WriteLine();
             Benchmarks = Wpf.Benchmarks.Benchmarks.List;
@@ -41,10 +49,19 @@ namespace C5.Performance.Wpf
         #region Benchmark Running
 
         private Boolean SerializeToDisk = false;
+        private Boolean WriteToDisk = true;
         private Boolean RunFromDisk = false;
         // Method that gets called when the benchmark button is used.
         private void benchmarkStart(object sender, RoutedEventArgs e)
         {
+            /*
+            //NCListPerformanceTests.Test4a();
+            //NCListPerformanceTests.Test4b();
+            updateStatusLabel("Finished");
+
+            return;
+            //*/
+
             runSequentialCheckBox.IsEnabled = false;
 
             if (RunFromDisk)
@@ -70,8 +87,8 @@ namespace C5.Performance.Wpf
                 foreach (var collectionSize in b.CollectionSizes())
                 {
                     updateStatusLabel("Running " + b.BenchMarkName() + " with collection size " + collectionSize);
-                    var benchmark = b.Benchmark(_maxCount, _repeats, collectionSize, MaxExecutionTimeInSeconds, updateStatusLabel, _runWarmups);
-                    Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() => _plotter.AddDataPoint(_lineSeriesIndex, benchmark, SerializeToDisk)));
+                    var benchmark = b.Benchmark(_maxCount, _repeats, collectionSize, MaxExecutionTimeInSeconds, updateStatusLabel, runWarmup: _runWarmups);
+                    Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() => _plotter.AddDataPoint(_lineSeriesIndex, benchmark, SerializeToDisk, WriteToDisk)));
                     Thread.Sleep(100);
                     updateProgressBar(benchmarks.Length);
                 }
@@ -95,7 +112,7 @@ namespace C5.Performance.Wpf
                 {
                     updateStatusLabel("Running " + b.BenchMarkName() + " with collection size " + collectionSize);
                     var benchmark = _plotter.ReadBenchmarkFromDisk(benchmarkCounter++);
-                    Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() => _plotter.AddDataPoint(_lineSeriesIndex, benchmark, false)));
+                    Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() => _plotter.AddDataPoint(_lineSeriesIndex, benchmark, false, WriteToDisk)));
                     Thread.Sleep(100);
                     updateProgressBar(benchmarks.Length);
                 }
@@ -118,14 +135,14 @@ namespace C5.Performance.Wpf
                 {
                     updateStatusLabel("Running " + b.BenchMarkName() + " with collection size " + collectionSize);
                     var benchmark = b.Benchmark(_maxCount, _repeats, collectionSize, MaxExecutionTimeInSeconds, updateStatusLabel, _runWarmups);
-                    Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() =>
-                        _plotter.AddDataPoint(_lineSeriesIndex, benchmark, false)));
+                    Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() => _plotter.AddDataPoint(_lineSeriesIndex, benchmark, false, WriteToDisk)));
                     Thread.Sleep(100);
                     _lineSeriesIndex++;
                     updateProgressBar(benchmarks.Length);
                 }
             }
             UpdateRunningLabel();
+            addPdfToBenchmarks();
             updateStatusLabel("Finished");
             Thread.Sleep(1000);
         }
@@ -149,6 +166,13 @@ namespace C5.Performance.Wpf
             var path = dlg.FileName;
             _plotter.ExportPdf(path, ActualWidth, ActualHeight);
         }
+
+        private void addPdfToBenchmarks()
+        {
+            var filename = Path.Combine(directory, testName + ".pdf");
+            _plotter.ExportPdf(filename, 1456, 916);
+        }
+
         #endregion
 
         #region UI Utils

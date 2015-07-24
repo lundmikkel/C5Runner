@@ -10,12 +10,11 @@ namespace C5.Performance.Wpf.Benchmarks
 
     class ContainmentList4b : Benchmarkable
     {
-        private const int Count = 1600 * 1000;
         private const int HighestLow = 1000 * 1000 * 1000;
         private readonly IntervalCollectionConstructor _constructor;
         private IIntervalCollection<IInterval<int>, int> _collection;
         private const int QueryCount = 100;
-        private IInterval<int>[] queryIntervals = new IInterval<int>[QueryCount];
+        private IInterval<int>[] queries;
         private readonly Random _random = new Random();
         private readonly string _collectionName;
 
@@ -38,33 +37,28 @@ namespace C5.Performance.Wpf.Benchmarks
             var intervals = IntervalsFactory.ContainmentListIntervals(collectionSize, HighestLow).ToArray();
             _collection = _constructor(intervals);
 
-            const int length = (int) (((double) HighestLow) / Count * 100);
+            var length = HighestLow / collectionSize * 1000;
+            queries = new IInterval<int>[QueryCount];
+
             for (var i = 0; i < QueryCount; ++i)
             {
                 var low = _random.Next(HighestLow);
-                queryIntervals[i] = new IntervalBase<int>(low, low + length, IntervalType.Closed);
+                queries[i] = new IntervalBase<int>(low, low + length, IntervalType.Closed);
             }
         }
 
         public override IEnumerable<int> CollectionSizes()
         {
-            var size = 1000;
+            var size = 125000;
             yield return size;
 
-            while (size < 1000 * 1000)
+            while (size < 32 * 1000 * 1000)
                 yield return size *= 2;
         }
 
-        public override double Call(int something, int collectionSize)
+        public override double Call(int i, int collectionSize)
         {
-            var sum = 0;
-
-            for (var i = 0; i < QueryCount; ++i)
-                sum += _collection.FindOverlaps(queryIntervals[i]).Count();
-
-            sum /= QueryCount;
-            //Console.WriteLine(@"{0}: {1} ({2})", _collectionName, sum, collectionSize);
-            return sum;
+            return _collection.FindOverlaps(queries[i % QueryCount]).Count();
         }
     }
 }

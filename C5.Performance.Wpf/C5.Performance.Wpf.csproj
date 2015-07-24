@@ -194,6 +194,7 @@
     </ApplicationDefinition>
     <Compile Include="Containment List Benchmarks\ContainmentList4b.cs" />
     <Compile Include="Containment List Benchmarks\ContainmentList4a.cs" />
+    <Compile Include="Containment List Benchmarks\NCListPerformanceTests.cs" />
     <Compile Include="Core\Benchmark.cs" />
     <Compile Include="Core\Benchmarkable.cs" />
     <Compile Include="Benchmarks\Benchmarker.cs" />

@@ -13,11 +13,12 @@ namespace C5.Performance.Wpf.Benchmarks
     {
         private const int Count = 1600 * 1000;
         private const int HighestLow = 1000 * 1000 * 1000;
-        private static readonly IInterval<int>[] Intervals = IntervalsFactory.ContainmentListIntervals(Count, HighestLow).ToArray().Shuffle();
+
+        private static readonly IInterval<int>[] Intervals = IntervalsFactory.ContainmentListIntervals(Count, HighestLow).ToArray();
         private readonly IntervalCollectionConstructor _constructor;
         private IIntervalCollection<IInterval<int>, int> _collection;
         private const int QueryCount = 100;
-        private IInterval<int>[] queryIntervals = new IInterval<int>[QueryCount];
+        private IInterval<int>[] queries = new IInterval<int>[QueryCount];
         private readonly Random _random = new Random();
         private readonly string _collectionName;
 
@@ -45,7 +46,7 @@ namespace C5.Performance.Wpf.Benchmarks
             for (var i = 0; i < QueryCount; ++i)
             {
                 var low = _random.Next(HighestLow);
-                queryIntervals[i] = new IntervalBase<int>(low, low + length, IntervalType.Closed);
+                queries[i] = new IntervalBase<int>(low, low + length, IntervalType.Closed);
             }
         }
 
@@ -58,16 +59,9 @@ namespace C5.Performance.Wpf.Benchmarks
                 yield return size += 500;
         }
 
-        public override double Call(int something, int collectionSize)
+        public override double Call(int i, int collectionSize)
         {
-            var sum = 0;
-
-            for (var i = 0; i < QueryCount; ++i)
-                sum += _collection.FindOverlaps(queryIntervals[i]).Count();
-
-            sum /= QueryCount;
-            //Console.WriteLine(@"{0}: {1} ({2})", _collectionName, sum, collectionSize);
-            return sum;
+            return _collection.FindOverlaps(queries[i]).Count();
         }
     }
 }

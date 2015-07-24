@@ -31,10 +31,6 @@ namespace C5.Ucsc
             //Console.Out.WriteLine(lclist.CountOverlaps(270000000));
 
             sw.Restart();
-            var lclistnew = new LayeredContainmentListNew<UcscHumanGenomeParser.SequenceInterval, int>(intervals);
-            Console.WriteLine("LCListNew: " + sw.ElapsedMilliseconds + " ms");
-
-            sw.Restart();
             var nclist = new NestedContainmentList<UcscHumanGenomeParser.SequenceInterval, int>(intervals);
             Console.WriteLine("NCList: " + sw.ElapsedMilliseconds + " ms");
 
