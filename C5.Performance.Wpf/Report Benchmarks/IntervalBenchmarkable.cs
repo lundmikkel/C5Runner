@@ -48,19 +48,9 @@ namespace C5.Performance.Wpf.Report_Benchmarks
             return !intervals.Any() ? new IntervalBinarySearchTree<IInterval<int>, int>() : new IntervalBinarySearchTree<IInterval<int>, int>(intervals);
         }
 
-        public static IIntervalCollection<IInterval<int>, int> IBSOLD(IInterval<int>[] intervals)
-        {
-            return !intervals.Any() ? new IntervalBinarySearchTreeOld<IInterval<int>, int>() : new IntervalBinarySearchTreeOld<IInterval<int>, int>(intervals);
-        }
-
         public static IIntervalCollection<IInterval<int>, int> LCList(IInterval<int>[] intervals)
         {
             return new LayeredContainmentList<IInterval<int>, int>(intervals);
-        }
-
-        public static IIntervalCollection<IInterval<int>, int> LCListGallop(IInterval<int>[] intervals)
-        {
-            return new LayeredContainmentListGallop<IInterval<int>, int>(intervals);
         }
 
         public static IIntervalCollection<IInterval<int>, int> NCList(IInterval<int>[] intervals)

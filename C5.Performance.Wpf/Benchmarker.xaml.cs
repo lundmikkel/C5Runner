@@ -5,7 +5,6 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
 using C5.Performance.Wpf.Benchmarks;
-using C5.Performance.Wpf.Containment_List_Benchmarks;
 using Microsoft.Win32;
 
 namespace C5.Performance.Wpf
@@ -15,13 +14,13 @@ namespace C5.Performance.Wpf
     {
         #region Fields
         private const int StandardRepeats = 10;
-        private int _repeats = 1;
+        private int _repeats = 1000;
         // Parameters for running the benchmarks
         private const double MaxExecutionTimeInSeconds = 0.25;
         private readonly Plotter _plotter;
         // Every time we benchmark we count this up in order to get a new color for every benchmark
         private int _lineSeriesIndex;
-        private const int OriginalMax = Int32.MaxValue / 10;
+        private const int OriginalMax = int.MaxValue / 10;
         private static int _maxCount = OriginalMax;
         private bool _runSequential;
         private bool _runWarmups;
@@ -54,18 +53,10 @@ namespace C5.Performance.Wpf
         // Method that gets called when the benchmark button is used.
         private void benchmarkStart(object sender, RoutedEventArgs e)
         {
-            /*
-            //NCListPerformanceTests.Test4a();
-            //NCListPerformanceTests.Test4b();
-            updateStatusLabel("Finished");
-
-            return;
-            //*/
-
             runSequentialCheckBox.IsEnabled = false;
 
             if (RunFromDisk)
-                redBenchmarksFromDisk(Benchmarks); // Is only reliable if you have serialized a sequential run
+                readBenchmarksFromDisk(Benchmarks); // Is only reliable if you have serialized a sequential run
             else
             {
                 // This benchmark is the one we use to compare with Sestoft's cmd line version of the tool
@@ -101,7 +92,7 @@ namespace C5.Performance.Wpf
         }
 
         // Sequential run from disk
-        private void redBenchmarksFromDisk(Benchmarkable[] benchmarks)
+        private void readBenchmarksFromDisk(Benchmarkable[] benchmarks)
         {
             var benchmarkCounter = 0;
             //runSequential;
@@ -160,11 +151,10 @@ namespace C5.Performance.Wpf
 
             // Show save file dialog box
             var result = dlg.ShowDialog();
-            if (result != true) return;
+            if (result == false) return;
 
             // Save document
-            var path = dlg.FileName;
-            _plotter.ExportPdf(path, ActualWidth, ActualHeight);
+            _plotter.ExportPdf(dlg.FileName, ActualWidth, ActualHeight);
         }
 
         private void addPdfToBenchmarks()

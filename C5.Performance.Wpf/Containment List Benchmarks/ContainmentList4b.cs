@@ -10,7 +10,7 @@ namespace C5.Performance.Wpf.Benchmarks
 
     class ContainmentList4b : Benchmarkable
     {
-        private const int HighestLow = 1000 * 1000 * 1000;
+        private const int HighestHigh = 1000 * 1000 * 1000;
         private readonly IntervalCollectionConstructor _constructor;
         private IIntervalCollection<IInterval<int>, int> _collection;
         private const int QueryCount = 100;
@@ -34,15 +34,15 @@ namespace C5.Performance.Wpf.Benchmarks
         {
             ItemsArray = SearchAndSort.FillIntArray(collectionSize);
 
-            var intervals = IntervalsFactory.ContainmentListIntervals(collectionSize, HighestLow).ToArray();
+            var intervals = IntervalsFactory.ContainmentListIntervals(collectionSize, HighestHigh).ToArray();
             _collection = _constructor(intervals);
 
-            var length = HighestLow / collectionSize * 1000;
+            var length = HighestHigh / collectionSize * 1000;
             queries = new IInterval<int>[QueryCount];
 
             for (var i = 0; i < QueryCount; ++i)
             {
-                var low = _random.Next(HighestLow);
+                var low = _random.Next(HighestHigh - length);
                 queries[i] = new IntervalBase<int>(low, low + length, IntervalType.Closed);
             }
         }
@@ -58,7 +58,7 @@ namespace C5.Performance.Wpf.Benchmarks
 
         public override double Call(int i, int collectionSize)
         {
-            return _collection.FindOverlaps(queries[i % QueryCount]).Count();
+            return _collection.FindOverlaps(queries[i]).Count();
         }
     }
 }

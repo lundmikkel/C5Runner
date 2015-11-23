@@ -8,40 +8,40 @@ namespace C5.Performance.Wpf.Benchmarks
 {
     using IntervalCollectionConstructor = Func<IInterval<int>[], IIntervalCollection<IInterval<int>, int>>;
 
-    class ContainmentList4a : Benchmarkable
+    class ContainmentList5 : Benchmarkable
     {
-        private const int Count = 1600 * 1000;
-        private const int HighestHigh = 1000 * 1000 * 1000;
-
-        private static readonly IInterval<int>[] Intervals = IntervalsFactory.ContainmentListIntervals(Count, HighestHigh).ToArray();
+        private const int HighestHigh = 100100000;
         private readonly IntervalCollectionConstructor _constructor;
         private IIntervalCollection<IInterval<int>, int> _collection;
         private const int QueryCount = 100;
-        private IInterval<int>[] queries = new IInterval<int>[QueryCount];
+        private IInterval<int>[] queries;
         private readonly Random _random = new Random();
         private readonly string _collectionName;
+        private readonly int _testNumber;
 
-        public ContainmentList4a(IntervalCollectionConstructor constructor, string collectionName)
+        public ContainmentList5(IntervalCollectionConstructor constructor, string collectionName, int testNumber)
         {
             _constructor = constructor;
             _collectionName = collectionName;
+            _testNumber = testNumber;
         }
 
 
         public override string BenchMarkName()
         {
-            return "4a - " + _collectionName;
+            return String.Format("5 ({0}) - {1}", QueryWidth(), _collectionName);
         }
 
         public override void CollectionSetup(int collectionSize)
         {
-            _collection = _constructor(Intervals);
             ItemsArray = SearchAndSort.FillIntArray(collectionSize);
-        }
 
-        public override void Setup(int collectionSize)
-        {
-            var length = (int) (((double) HighestHigh) / Count * collectionSize);
+            var intervals = IntervalsFactory.ContainmentListIntervals(collectionSize, HighestHigh).ToArray();
+            _collection = _constructor(intervals);
+
+            var length = QueryWidth();
+            queries = new IInterval<int>[QueryCount];
+
             for (var i = 0; i < QueryCount; ++i)
             {
                 var low = _random.Next(HighestHigh - length);
@@ -49,13 +49,34 @@ namespace C5.Performance.Wpf.Benchmarks
             }
         }
 
+        public int QueryWidth()
+        {
+            var queryWidths = new[]
+            {
+                   100,
+                   500,
+                  1000,
+                  5000,
+                 10000,
+                 50000,
+                100000,
+            };
+
+            return queryWidths[_testNumber];
+        }
+
         public override IEnumerable<int> CollectionSizes()
         {
-            var size = 500;
-            yield return size;
-
-            while (size < 4000)
-                yield return size += 500;
+            return new[]
+            {
+                   50000,
+                  100000,
+                  200000,
+                  500000,
+                 1000000,
+                 2000000,
+                 5000000,
+            };
         }
 
         public override double Call(int i, int collectionSize)

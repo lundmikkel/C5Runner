@@ -192,6 +192,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Containment List Benchmarks\ContainmentList5.cs" />
     <Compile Include="Containment List Benchmarks\ContainmentList4b.cs" />
     <Compile Include="Containment List Benchmarks\ContainmentList4a.cs" />
     <Compile Include="Containment List Benchmarks\NCListPerformanceTests.cs" />
@@ -212,14 +213,12 @@
     <Compile Include="Report Benchmarks\QueryRange.cs" />
     <Compile Include="Report Benchmarks\QueryStabbing.cs" />
     <Compile Include="Report Benchmarks\Enumerate.cs" />
-    <Compile Include="Benchmarks\IbsAvlOldIntervalSetsBenchmarker.cs" />
     <Compile Include="Benchmarks\DITSearchBenchmark.cs" />
     <Compile Include="Benchmarks\DITSearchIterativeBenchmark.cs" />
     <Compile Include="Benchmarks\DITSearchRecursiveBenchmark.cs" />
     <Compile Include="Benchmarks\DITTrainSearchSelectiveBenchmark.cs" />
     <Compile Include="Benchmarks\IbsAvlIntervalSetsBenchmarker.cs" />
     <Compile Include="Report Benchmarks\IBSIntervalSetLazy.cs" />
-    <Compile Include="Report Benchmarks\IBSIntervalSetEager.cs" />
     <Compile Include="Benchmarks\IBSSearchBenchmark.cs" />
     <Compile Include="Benchmarks\IBSTrainRemoveBenchmark.cs" />
     <Compile Include="Benchmarks\DITTrainRemoveBenchmark.cs" />

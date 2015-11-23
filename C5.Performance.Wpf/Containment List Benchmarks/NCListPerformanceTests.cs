@@ -16,10 +16,10 @@ namespace C5.Performance.Wpf.Containment_List_Benchmarks
         {
             var filename = "4a_" + DateTime.Now.Ticks + ".txt";
             var count = 1600 * 1000;
-            var highestLow = 1000 * 1000 * 1000;
+            var highestHigh = 1000 * 1000 * 1000;
             var runCount = 1000;
             var iterations = 1000;
-            var intervals = IntervalsFactory.ContainmentListIntervals(count, highestLow).ToArray();
+            var intervals = IntervalsFactory.ContainmentListIntervals(count, highestHigh).ToArray();
             var collection = new NestedContainmentList<IInterval<int>, int>(intervals);
             var random = new Random();
 
@@ -31,7 +31,7 @@ namespace C5.Performance.Wpf.Containment_List_Benchmarks
                 var sum = 0;
                 for (var iteration = 0; iteration < iterations; ++iteration)
                 {
-                    var low = random.Next(0, highestLow);
+                    var low = random.Next(highestHigh - length);
                     var query = new IntervalBase<int>(low, low + length);
 
                     timer.Play();
@@ -48,15 +48,15 @@ namespace C5.Performance.Wpf.Containment_List_Benchmarks
         public static void Test4b()
         {
             var filename = "4b_" + DateTime.Now.Ticks + ".txt";
-            var highestLow = 1000 * 1000 * 1000;
+            var highestHigh = 1000 * 1000 * 1000;
             var iterations = 1000;
             var random = new Random();
 
             for (var collectionSize = 12500; collectionSize <= 3200 * 1000; collectionSize *= 2)
             {
-                var intervals = IntervalsFactory.ContainmentListIntervals(collectionSize, highestLow).ToArray();
+                var intervals = IntervalsFactory.ContainmentListIntervals(collectionSize, highestHigh).ToArray();
                 var collection = new NestedContainmentList<IInterval<int>, int>(intervals);
-                var length = highestLow / collectionSize * 1000;
+                var length = highestHigh / collectionSize * 1000;
 
                 int resultSize;
                 double queryTime;
@@ -67,7 +67,7 @@ namespace C5.Performance.Wpf.Containment_List_Benchmarks
                     var sum = 0;
                     for (var iteration = 0; iteration < iterations; ++iteration)
                     {
-                        var low = random.Next(0, highestLow);
+                        var low = random.Next(highestHigh - length);
                         var query = new IntervalBase<int>(low, low + length);
 
                         timer.Play();

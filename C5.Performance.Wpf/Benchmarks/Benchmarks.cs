@@ -25,9 +25,7 @@ namespace C5.Performance.Wpf.Benchmarks
 
         private static readonly IntervalCollectionConstructor DIT = IntervalBenchmarkable.DIT;
         private static readonly IntervalCollectionConstructor IBS = IntervalBenchmarkable.IBS;
-        private static readonly IntervalCollectionConstructor IBSOLD = IntervalBenchmarkable.IBSOLD;
         private static readonly IntervalCollectionConstructor LCList = IntervalBenchmarkable.LCList;
-        private static readonly IntervalCollectionConstructor LCListGallop = IntervalBenchmarkable.LCListGallop;
         private static readonly IntervalCollectionConstructor NCList = IntervalBenchmarkable.NCList;
         private static readonly IntervalCollectionConstructor NCList2 = IntervalBenchmarkable.NCList2;
         private static readonly IntervalCollectionConstructor NCListArticle = IntervalBenchmarkable.NCListArticle;
@@ -60,7 +58,7 @@ namespace C5.Performance.Wpf.Benchmarks
                 new ContainmentList4a(NCList, "Nested Containment List"), 
                 new ContainmentList4a(NCListArticle, "Nested Containment List Article"), 
                 new ContainmentList4a(LCList, "Layered Containment List"),
-                new ContainmentList4a(LCListGallop, "Layered Containment List Gallop"),
+                //new ContainmentList4a(BITS, "Binary Interval Search"), 
             };
         }
 
@@ -71,8 +69,32 @@ namespace C5.Performance.Wpf.Benchmarks
                 new ContainmentList4b(NCList, "Nested Containment List"),
                 //new ContainmentList4b(NCListArticle, "Nested Containment List Article"),
                 new ContainmentList4b(LCList, "Layered Containment List"),
-                //new ContainmentList4b(LCListGallop, "Layered Containment List Gallop"),
                 //new ContainmentList4b(BITS, "Binary Interval Search"), 
+            };
+        }
+
+        private static Benchmarkable[] containmentList5()
+        {
+            var testNumber = 6;
+
+            return new Benchmarkable[]
+            {
+                new ContainmentList5(NCList, "Nested Containment List", testNumber),
+                new ContainmentList5(NCListArticle, "Nested Containment List Article", testNumber),
+                new ContainmentList5(LCList, "Layered Containment List", testNumber),
+                //new ContainmentList5(BITS, "Binary Interval Search", testNumber), 
+            
+                // new ContainmentList5(NCList, "Nested Containment List", 0),
+                // new ContainmentList5(NCListArticle, "Nested Containment List Article", 0),
+                // new ContainmentList5(LCList, "Layered Containment List", 0),
+
+                // new ContainmentList5(NCList, "Nested Containment List", 1),
+                // new ContainmentList5(NCListArticle, "Nested Containment List Article", 1),
+                // new ContainmentList5(LCList, "Layered Containment List", 1),
+                
+                // new ContainmentList5(NCList, "Nested Containment List", 2),
+                // new ContainmentList5(NCListArticle, "Nested Containment List Article", 2),
+                // new ContainmentList5(LCList, "Layered Containment List", 2),
             };
         }
 
@@ -80,9 +102,9 @@ namespace C5.Performance.Wpf.Benchmarks
         {
             get
             {
-                //return queryRange();
                 //return containmentList4a();
-                return containmentList4b();
+                //return containmentList4b();
+                return containmentList5();
             }
         }
     }

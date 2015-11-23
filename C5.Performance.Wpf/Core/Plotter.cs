@@ -150,9 +150,18 @@ namespace C5.Performance.Wpf
                 Directory.CreateDirectory(directory);
 
             var filename = benchmark.BenchmarkName.Replace(" ", String.Empty) + ".dat";
+
             using (var w = File.AppendText(Path.Combine(directory, filename)))
             {
                 w.WriteLine("{0}\t{1}\t{2}", benchmark.CollectionSize, benchmark.MeanTime, benchmark.StandardDeviation);
+            }
+
+
+            var meanFilename = benchmark.BenchmarkName.Replace(" ", String.Empty) + ".mean.txt";
+
+            using (var w = File.AppendText(Path.Combine(directory, meanFilename)))
+            {
+                w.WriteLine(benchmark.MeanTime);
             }
         }
 
