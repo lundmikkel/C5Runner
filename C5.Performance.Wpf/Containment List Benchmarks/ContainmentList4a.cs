@@ -11,7 +11,7 @@ namespace C5.Performance.Wpf.Benchmarks
     class ContainmentList4a : Benchmarkable
     {
         private const int Count = 1600 * 1000;
-        private const int HighestHigh = 1000 * 1000 * 1000;
+        private const int HighestHigh = 1001 * 1000 * 1000;
 
         private static readonly IInterval<int>[] Intervals = IntervalsFactory.ContainmentListIntervals(Count, HighestHigh).ToArray();
         private readonly IntervalCollectionConstructor _constructor;

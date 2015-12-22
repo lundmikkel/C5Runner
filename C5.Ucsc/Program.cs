@@ -10,14 +10,15 @@ namespace C5.Ucsc
         public static void Main(string[] args)
         {
             /*
-            
-            UcscHumanGenomeParser.ParseMafToAlignments("//VBOXSVR/maf/raw/chr1.maf", "//VBOXSVR/maf/parsed/chr1.compressed.txt");
+            Console.WriteLine("Parsing raw maf-file.");
+
+            UcscHumanGenomeParser.ParseMafToAlignments("Y:/Downloads/chr1.maf", "Y:/Downloads/chr1.compressed.txt");
             
             /*/
 
             var sw = new Stopwatch();
             sw.Start();
-            var intervals = UcscHumanGenomeParser.ParseCompressedMaf("//VBOXSVR/maf/parsed/chr1.compressed.txt").ToArray();
+            var intervals = UcscHumanGenomeParser.ParseCompressedMaf("Y:/Downloads/chr1.compressed.txt").ToArray();
             Sorting.Timsort(intervals, IntervalExtensions.CreateComparer<UcscHumanGenomeParser.SequenceInterval, int>());
             Console.WriteLine("Reading the intervals: " + sw.ElapsedMilliseconds + " ms");
 
@@ -34,9 +35,6 @@ namespace C5.Ucsc
             var nclist = new NestedContainmentList<UcscHumanGenomeParser.SequenceInterval, int>(intervals);
             Console.WriteLine("NCList: " + sw.ElapsedMilliseconds + " ms");
 
-            sw.Restart();
-            var nclistnew = new NestedContainmentListArticle<UcscHumanGenomeParser.SequenceInterval, int>(intervals);
-            Console.WriteLine("NCListArticle: " + sw.ElapsedMilliseconds + " ms");
 
             //*/
 

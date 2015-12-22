@@ -576,15 +576,6 @@ namespace C5.Intervals.Tests
         public override string Name { get { return "Nested"; } }
     }
 
-    class NestedContainmentList2_Benchmarker : DataSetTester
-    {
-        protected override IIntervalCollection<IntervalOfInt, int> Factory(IEnumerable<IInterval<int>> intervals)
-        {
-            return new NestedContainmentList2<IntervalOfInt, int>(intervals);
-        }
-        public override string Name { get { return "Nested2"; } }
-    }
-
     class StaticIntervalTree_Benchmarker : DataSetTester
     {
         protected override IIntervalCollection<IntervalOfInt, int> Factory(IEnumerable<IInterval<int>> intervals)

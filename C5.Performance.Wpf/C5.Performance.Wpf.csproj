@@ -192,7 +192,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Containment List Benchmarks\ContainmentList5.cs" />
+    <Compile Include="Containment List Benchmarks\ContainmentListConstruction.cs" />
+    <Compile Include="Containment List Benchmarks\ContainmentListSpeedRatio.cs" />
+    <Compile Include="Containment List Benchmarks\ContainmentListUcsc.cs" />
     <Compile Include="Containment List Benchmarks\ContainmentList4b.cs" />
     <Compile Include="Containment List Benchmarks\ContainmentList4a.cs" />
     <Compile Include="Containment List Benchmarks\NCListPerformanceTests.cs" />
@@ -281,6 +283,10 @@
     <ProjectReference Include="..\C5.Intervals.Performance\C5.Intervals.Performance.csproj">
       <Project>{AEC07245-F80B-4071-89BE-C3BED4F71A0C}</Project>
       <Name>C5.Intervals.Performance</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\C5.Ucsc\C5.Ucsc.csproj">
+      <Project>{2b89ebfa-7cbc-46b3-943f-10209c906294}</Project>
+      <Name>C5.Ucsc</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

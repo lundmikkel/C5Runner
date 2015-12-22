@@ -53,19 +53,19 @@ namespace C5.Performance.Wpf.Benchmarks
                 // Ensure the warmup isn't optimized away
                 if ((long) dummy == DateTime.Now.Ticks)
                     Console.Write(@" ");
-
-                // Reset dummy
-                dummy = 0.0;
             }
 
 
             do
             {
+                dummy = 0.0;
+
                 // Step up the count by a factor
                 count *= 2;
                 elapsedTime = elapsedSquaredTime = 0.0;
                 for (var run = 1; run <= runCount; ++run)
                 {
+                    
                     updateLabel(String.Format("Benchmarking {0} calls {1} of {2} times", count, run, runCount));
 
                     var timer = new Timer();
@@ -87,7 +87,7 @@ namespace C5.Performance.Wpf.Benchmarks
 
             var meanTime = elapsedTime / runCount;
             var standardDeviation = Math.Sqrt(elapsedSquaredTime / runCount - meanTime * meanTime);
-
+            
             updateLabel(string.Empty);
 
             return new Benchmark

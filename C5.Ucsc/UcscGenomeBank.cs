@@ -9,11 +9,11 @@ using Microsoft.VisualBasic.FileIO;
 
 namespace C5.Ucsc
 {
-    class UcscGenomeBank
+    public class UcscGenomeBank
     {
     }
 
-    class UcscHumanGenomeParser
+    public class UcscHumanGenomeParser
     {
         public static IEnumerable<SequenceInterval> ParseCompressedMaf(string source)
         {
@@ -303,7 +303,7 @@ namespace C5.Ucsc
             }
         }
 
-        internal enum Animal
+        public enum Animal
         {
             Unknown,
 
@@ -431,7 +431,7 @@ namespace C5.Ucsc
         }
     }
 
-    struct UcscHumanGene : IInterval<GenomePosition>
+    public struct UcscHumanGene : IInterval<GenomePosition>
     {
         // Name of gene
         private readonly string _name;
@@ -482,7 +482,7 @@ namespace C5.Ucsc
         public bool HighIncluded { get { return true; } }
     }
 
-    struct GenomeInterval : IInterval<GenomePosition>
+    public struct GenomeInterval : IInterval<GenomePosition>
     {
         private readonly string _chrom;
         private readonly GenomePosition _low;
@@ -507,7 +507,7 @@ namespace C5.Ucsc
         }
     }
 
-    struct GenomePosition : IComparable<GenomePosition>
+    public struct GenomePosition : IComparable<GenomePosition>
     {
         private readonly string _chrom;
         private readonly int _position;
@@ -534,7 +534,7 @@ namespace C5.Ucsc
         }
     }
 
-    enum Strand
+    public enum Strand
     {
         Plus,
         Minus

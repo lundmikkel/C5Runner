@@ -14,9 +14,9 @@ namespace C5.Performance.Wpf
     {
         #region Fields
         private const int StandardRepeats = 10;
-        private int _repeats = 1000;
+        private int _repeats = StandardRepeats;
         // Parameters for running the benchmarks
-        private const double MaxExecutionTimeInSeconds = 0.25;
+        private const double MaxExecutionTimeInSeconds = 0.15;
         private readonly Plotter _plotter;
         // Every time we benchmark we count this up in order to get a new color for every benchmark
         private int _lineSeriesIndex;

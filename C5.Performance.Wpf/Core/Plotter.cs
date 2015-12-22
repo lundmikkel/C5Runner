@@ -153,7 +153,7 @@ namespace C5.Performance.Wpf
 
             using (var w = File.AppendText(Path.Combine(directory, filename)))
             {
-                w.WriteLine("{0}\t{1}\t{2}", benchmark.CollectionSize, benchmark.MeanTime, benchmark.StandardDeviation);
+                w.WriteLine("{0}\t{1}\t{2}\t{3}", benchmark.CollectionSize, benchmark.MeanTime, benchmark.StandardDeviation, benchmark.Dummy);
             }
 
 
